@@ -1,3 +1,3 @@
 #Metaborg-JS
 
-A Simple Parser and Pretty Printer for Javascript, implemented in Spoofax2
+A simple parser and pretty printer for Javascript, implemented in Spoofax2. 

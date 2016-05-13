@@ -10,4 +10,15 @@ context-free start-symbols
 
 context-free syntax
   
-  Start.Empty = <Test>
+  Start.Empty = <<Function>>
+  
+  Function.FunDecl = <function <ID> ( <Parameters> ) {
+  		
+  }>
+  
+  Function.Parameter = <<Parameters*>>
+
+  Parameters.ParList = < <{ID ","}*> >
+  
+  Statements.Print = <Console.log(<STRING>)>
+  

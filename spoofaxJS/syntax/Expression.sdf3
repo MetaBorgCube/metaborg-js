@@ -1,0 +1,31 @@
+module Expression
+
+imports
+
+  Common
+  
+context-free syntax
+  Expression = < ( <Expression> ) > {bracket}
+  Expression.MethodCall = <<Expression>.<ID>(<{Expression ","}*>)> {left}
+  Expression.FunctionCall = <<ID>(<{Expression ","}*>)> {left}
+  Expression.IntegerLiteral = <<INT>> {non-assoc}
+  Expression.True = <true> {non-assoc}
+  Expression.False = <false> {non-assoc}
+  Expression.Identifier = <<ID>> {non-assoc}
+  Expression.String = <<STRING>> {non-assoc}
+  Expression.Addition = <<Expression> + <Expression>> {left}
+  Expression.Substraction = <<Expression> - <Expression>> {left}
+  Expression.Multiplication = <<Expression> * <Expression>> {left}
+  
+context-free priorities
+{ left:
+	Expression.FunctionCall
+	Expression.MethodCall
+} > 
+{ left:
+	Expression.Multiplication
+} >
+{ left:
+	Expression.Addition
+	Expression.Substraction	
+}

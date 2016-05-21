@@ -1,0 +1,13 @@
+module MethodDecl
+
+imports
+  Common
+  Statement
+  Expression
+  Parameter
+
+context-free syntax
+MethodDecl.method =
+<function <ID>(<{Parameter ","}*>) {
+  <{Statement "\n"}*>
+}>

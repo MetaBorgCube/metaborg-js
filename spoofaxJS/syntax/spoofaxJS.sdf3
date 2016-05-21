@@ -3,22 +3,18 @@ module spoofaxJS
 imports
   
   Common
+  Expression
+  Statement
+  MethodDecl
 
 context-free start-symbols
   
   Start
+  MethodDecl
+  Expression
+  Statement
 
 context-free syntax
+  Start.Empty = <>
   
-  Start.Empty = <<Function>>
-  
-  Function.FunDecl = <function <ID> ( <Parameters> ) {
-  		
-  }>
-  
-  Function.Parameter = <<Parameters*>>
-
-  Parameters.ParList = < <{ID ","}*> >
-  
-  Statements.Print = <Console.log(<STRING>)>
   

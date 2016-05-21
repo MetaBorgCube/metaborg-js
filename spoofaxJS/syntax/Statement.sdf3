@@ -1,0 +1,8 @@
+module Statement
+
+imports
+  Common
+  Expression
+  
+context-free syntax
+  Statement.return = <return <Expression>;>

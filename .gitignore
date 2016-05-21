@@ -2,4 +2,4 @@ spoofaxJS/.mvn/jvm.config
 spoofaxJS/.mvn/maven.config
 spoofaxJS/.mvn/settings.xml
 spoofaxJS/metaborg.yaml
-
+spoofaxJS-examples/*

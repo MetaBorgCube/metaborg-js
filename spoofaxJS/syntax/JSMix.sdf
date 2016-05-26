@@ -1,0 +1,20 @@
+module JSMix[E]
+
+imports
+
+  Expression
+
+exports
+
+  lexical syntax
+
+    [0-9]* -> MetaVarSuffix
+    "_" [A-Za-z0-9\_\-]+ -> MetaVarSuffix
+    
+      
+  context-free syntax
+    "js-expr"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
+    
+  variables
+    "e"   [0-9\']*           -> Expression {prefer}
+    "e_"  [A-Za-z0-9\']+     -> Expression {prefer}

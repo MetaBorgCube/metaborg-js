@@ -5,4 +5,5 @@ imports
   Expression
   
 context-free syntax
+  Statement.expStmt = <<Expression>;>
   Statement.return = <return <Expression>;>

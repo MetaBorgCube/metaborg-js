@@ -16,4 +16,6 @@ context-free start-symbols
 
 context-free syntax
   Start.Empty = <>
-  Start.Program = <<{MethodDecl "\n\n"}*>>
+  Start.Program = <<{Statement "\n\n"}*>>
+  
+  

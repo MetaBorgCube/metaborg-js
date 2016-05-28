@@ -3,11 +3,13 @@ module Expression
 imports
 
   Common
+  Parameter
+  Statement
   
 context-free syntax
   Expression = < ( <Expression> ) > {bracket}
-  Expression.MethodCall = <<Expression>.<ID>(<{Expression ","}*>)> {left}
-  Expression.FunctionCall = <<ID>(<{Expression ","}*>)> {left}
+  Expression.Property = <<Expression>.<ID>> {left}
+  Expression.Call = <<Expression>(<{Expression ","}*>)> {left}
   Expression.IntegerLiteral = <<INT>> {non-assoc}
   Expression.True = <true> {non-assoc}
   Expression.False = <false> {non-assoc}
@@ -16,11 +18,13 @@ context-free syntax
   Expression.Addition = <<Expression> + <Expression>> {left}
   Expression.Substraction = <<Expression> - <Expression>> {left}
   Expression.Multiplication = <<Expression> * <Expression>> {left}
+  Expression.AnonFunction= <function(<{Parameter ","}*>) {
+  		<{Statement "\n"}*>
+	}>
   
 context-free priorities
 { left:
-	Expression.FunctionCall
-	Expression.MethodCall
+	Expression.Call
 } > 
 { left:
 	Expression.Multiplication

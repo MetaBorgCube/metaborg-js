@@ -3,7 +3,10 @@ module Statement
 imports
   Common
   Expression
+  MethodDecl
   
 context-free syntax
   Statement.expStmt = <<Expression>;>
+  Statement.varDecl = <var <ID> = <Expression>;>
   Statement.return = <return <Expression>;>
+  Statement = <<MethodDecl>>

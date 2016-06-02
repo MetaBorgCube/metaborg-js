@@ -5,6 +5,7 @@ lexical syntax
   ID             = [a-zA-Z\_] [a-zA-Z0-9\_]* 
   INT            = "-"? [0-9]+ 
   STRING         = "\"" StringChar* "\"" 
+  STRING         = "'" StringChar* "'"
   StringChar     = ~[\"\n] 
   StringChar     = "\\\"" 
   StringChar     = BackSlashChar 

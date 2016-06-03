@@ -12,5 +12,8 @@ context-free syntax
   Statement.for = <for (<Statement><Expression>;<Expression>) {
   <Statement*>
 }>
+  Statement.while = <while (<Expression>) {
+  <Statement*>
+}>
   Statement.return = <return <Expression>;>
   Statement = <<MethodDecl>>

@@ -53,4 +53,7 @@ context-free priorities
 } >
 { left:
 	Expression.Or	
+} >
+{ left:
+	Statement.assignment
 }

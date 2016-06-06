@@ -8,5 +8,12 @@ imports
 context-free syntax
   Statement.expStmt = <<Expression>;>
   Statement.varDecl = <var <ID> = <Expression>;>
+  Statement.assignment = <<ID> = <Expression>;>
+  Statement.for = <for (<Statement><Expression>;<Expression>) {
+  <Statement*>
+}>
+  Statement.while = <while (<Expression>) {
+  <Statement*>
+}>
   Statement.return = <return <Expression>;>
   Statement = <<MethodDecl>>

@@ -15,23 +15,23 @@ exports
       
   context-free syntax
     "js-ex"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
-    "js-ex"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
+    "js-ex*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
     "js-stmt"  "|[" Statement "]|" -> E {cons("ToMetaExpr")}
-    "js-stmt"  "|[" Statement* "]|" -> E {cons("ToMetaExpr")}
+    "js-stmt*"  "|[" Statement* "]|" -> E {cons("ToMetaExpr")}
     "js-methoddecl" "|[" MethodDecl "]|" -> E {cons("ToMetaExpr")}
-    "js-methoddecl" "|[" MethodDecl* "]|" -> E {cons("ToMetaExpr")}
+    "js-methoddecl*" "|[" MethodDecl* "]|" -> E {cons("ToMetaExpr")}
     "js-program" "|[" Start "]|" -> E {cons("ToMetaExpr")}
     
   variables
     "e"   [0-9\']*           -> Expression {prefer}
     "e_"  [A-Za-z0-9\']+     -> Expression {prefer}
- 	"e"   [0-9\']* "*"       -> {Expression ","}* {prefer}
-	"e_"  [A-Za-z0-9\']+ "*" -> {Expression ","}* {prefer}
+ 	"f"   [0-9\']* "*"       -> Expression* {prefer}
+	"f_"  [A-Za-z0-9\']+ "*" -> Expression* {prefer}
     "s"   [0-9\']*           -> Statement {prefer}
     "s_"  [A-Za-z0-9\']+     -> Statement {prefer}
- 	"s"   [0-9\']* "*"       -> {Statement ","}* {prefer}
-	"s_"  [A-Za-z0-9\']+ "*" -> {Statement ","}* {prefer}
+ 	"s"   [0-9\']* "*"       -> Statement* {prefer}
+	"s_"  [A-Za-z0-9\']+ "*" -> Statement* {prefer}
     "m"   [0-9\']*           -> MethodDecl {prefer}
     "m_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
- 	"m"   [0-9\']* "*"       -> {MethodDecl ","}* {prefer}
-	"m_"  [A-Za-z0-9\']+ "*" -> {MethodDecl ","}* {prefer}
+ 	"m"   [0-9\']* "*"       -> MethodDecl* {prefer}
+	"m_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}

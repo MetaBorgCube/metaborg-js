@@ -23,15 +23,15 @@ exports
     "js-program" "|[" Start "]|" -> E {cons("ToMetaExpr")}
     
   variables
-    "e"   [0-9\']*           -> Expression {prefer}
-    "e_"  [A-Za-z0-9\']+     -> Expression {prefer}
- 	"f"   [0-9\']* "*"       -> Expression* {prefer}
-	"f_"  [A-Za-z0-9\']+ "*" -> Expression* {prefer}
-    "s"   [0-9\']*           -> Statement {prefer}
-    "s_"  [A-Za-z0-9\']+     -> Statement {prefer}
- 	"s"   [0-9\']* "*"       -> Statement* {prefer}
-	"s_"  [A-Za-z0-9\']+ "*" -> Statement* {prefer}
-    "m"   [0-9\']*           -> MethodDecl {prefer}
-    "m_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
- 	"m"   [0-9\']* "*"       -> MethodDecl* {prefer}
-	"m_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}
+    "exp"   [0-9\']*           -> Expression {prefer}
+    "exp_"  [A-Za-z0-9\']+     -> Expression {prefer}
+ 	"exp"   [0-9\']* "*"       -> {Expression ","}* {prefer}
+	"exp_"  [A-Za-z0-9\']+ "*" -> {Expression ","}* {prefer}
+    "stmt"   [0-9\']*           -> Statement {prefer}
+    "stmt_"  [A-Za-z0-9\']+     -> Statement {prefer}
+ 	"stmt"   [0-9\']* "*"       -> Statement* {prefer}
+	"stmt_"  [A-Za-z0-9\']+ "*" -> Statement* {prefer}
+    "met"   [0-9\']*           -> MethodDecl {prefer}
+    "met_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
+ 	"met"   [0-9\']* "*"       -> MethodDecl* {prefer}
+	"met_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}

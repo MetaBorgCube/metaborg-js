@@ -11,6 +11,7 @@ context-free syntax
   Expression.Property = <<Expression>.<ID>> {left}
   Expression.Call = <<Expression>(<{Expression ","}*>)> {left}
   Expression.IntegerLiteral = <<INT>> {non-assoc}
+  Expression.FloatLiteral = <<FLOAT>> {non-assoc}
   Expression.True = <true> {non-assoc}
   Expression.False = <false> {non-assoc}
   Expression.Null = <null> {non-assoc}

@@ -1,0 +1,17 @@
+module Lexical
+
+imports
+  
+	Common
+
+lexical syntax
+
+	ID = "true" {reject}
+	ID = "false" {reject}
+	ID = "null" {reject}
+	ID = "function" {reject}
+	ID = "var" {reject}
+	ID = "const" {reject}
+	ID = "while" {reject}
+	ID = "for" {reject}
+	ID = "return" {reject}

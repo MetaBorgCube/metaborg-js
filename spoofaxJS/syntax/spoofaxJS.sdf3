@@ -3,6 +3,7 @@ module spoofaxJS
 imports
   
   Common
+  Lexical
   Expression
   Statement
   MethodDecl

@@ -7,7 +7,7 @@ imports
   Statement
   
 context-free syntax
-  Expression = < ( <Expression> ) > {bracket}
+  Expression.Parenthesised = <(<Expression>)>
   Expression.Property = <<Expression>.<ID>> {left}
   Expression.Call = <<Expression>(<{Expression ","}*>)> {left}
   Expression.IntegerLiteral = <<INT>> {non-assoc}

@@ -15,6 +15,7 @@ context-free syntax
   Expression.True = <true> {non-assoc}
   Expression.False = <false> {non-assoc}
   Expression.Null = <null> {non-assoc}
+  Expression.Undefined = <undefined> {non-assoc}
   Expression.Identifier = <<ID>> {non-assoc}
   Expression.String = <<STRING>> {non-assoc}
   Expression.Addition = <<Expression> + <Expression>> {left}

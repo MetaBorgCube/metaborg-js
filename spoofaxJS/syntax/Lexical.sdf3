@@ -9,6 +9,7 @@ lexical syntax
 	ID = "true" {reject}
 	ID = "false" {reject}
 	ID = "null" {reject}
+	ID = "undefined" {reject}
 	ID = "function" {reject}
 	ID = "var" {reject}
 	ID = "const" {reject}

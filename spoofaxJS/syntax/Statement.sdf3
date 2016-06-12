@@ -18,3 +18,16 @@ context-free syntax
 }>
   Statement.return = <return <Expression>;>
   Statement = <<MethodDecl>>
+  Statement.try = <try {
+  	<{Statement "\n"}*>
+} <CatchFinally>>
+
+  CatchFinally.catch = <catch(<Expression>){
+  	<{Statement "\n"}*>
+}<CatchFinally?>>
+  
+  CatchFinally.finally = <finally {
+  	<{Statement "\n"}*>
+}>
+  	
+  

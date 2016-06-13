@@ -36,6 +36,8 @@ context-free syntax
   KeyValue.KeyValue = <"<ID>":<Expression>>
   Expression.Array = <<Expression>[<{Expression ","}*>]>
   
+  Expression.ArrayLiteral = <[<{Expression ","}*>]>
+  
 context-free priorities
 { left:
 	Expression.Call

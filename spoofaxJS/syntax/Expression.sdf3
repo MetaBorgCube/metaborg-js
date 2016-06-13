@@ -34,6 +34,7 @@ context-free syntax
   Expression.Object = <{<{KeyValue ","}*>}>
   KeyValue.KeyValue = <<ID>:<Expression>>
   KeyValue.KeyValue = <"<ID>":<Expression>>
+  Expression.Array = <[<{Expression ","}*>]>
   
 context-free priorities
 { left:

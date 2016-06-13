@@ -32,7 +32,6 @@ context-free syntax
   		<{Statement "\n"}*>
 	}>
   Expression.Object = <{<{KeyValue ","}*>}>
-  KeyValue.KeyValue = <<ID>:<Expression>>
   KeyValue.KeyValue = <"<ID>":<Expression>>
   Expression.Array = <<Expression>[<{Expression ","}*>]>
   

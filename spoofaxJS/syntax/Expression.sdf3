@@ -31,6 +31,9 @@ context-free syntax
   Expression.AnonFunction= <function(<{Parameter ","}*>) {
   		<{Statement "\n"}*>
 	}>
+  Expression.Object = <{<{KeyValue ","}*>}>
+  KeyValue.KeyValue = <<ID>:<Expression>>
+  KeyValue.KeyValue = <"<ID>":<Expression>>
   
 context-free priorities
 { left:

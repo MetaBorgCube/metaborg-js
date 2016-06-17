@@ -39,6 +39,9 @@ context-free syntax
   
 context-free priorities
 { left:
+	Expression.Property
+} > 
+{ left:
 	Expression.Call
 } > 
 { left:

@@ -26,6 +26,8 @@ context-free syntax
   Expression.Lower = [[Expression] < [Expression]] {left}
   Expression.GreaterEquals = [[Expression] >= [Expression]] {left}
   Expression.LowerEquals = [[Expression] <= [Expression]] {left}
+  Expression.Equals = [[Expression] == [Expression]] {left}
+  Expression.NotEquals = [[Expression] != [Expression]] {left}
   Expression.And = [[Expression] && [Expression]] {left}
   Expression.Or = [[Expression] || [Expression]] {left}
   Expression.AnonFunction= <function(<{Parameter ","}*>) {

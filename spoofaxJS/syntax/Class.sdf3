@@ -1,0 +1,23 @@
+module Class
+
+imports
+  Common
+  Expression
+  Statement
+  Assignment
+  
+context-free syntax
+  ClassDeclaration.ClassDeclaration = 
+    <class <ID> <ClassHeritage>  {
+       <ClassBody>
+     }>
+  
+  ClassHeritage.Extends = <extends <Expression>>
+  ClassHeritage.ExtendsObject = <>
+  
+  ClassBody.ClassBody = {ClassElement "\n"}*
+  
+  ClassElement.MethodDefinition =
+    <<ID>(<{LeftHandSideExpression ","}*>){
+      <Statement*>  
+    }>

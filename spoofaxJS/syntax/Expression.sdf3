@@ -3,7 +3,6 @@ module Expression
 imports
 
   Common
-  Parameter
   Statement
   
 context-free syntax
@@ -16,8 +15,9 @@ context-free syntax
   Expression.False = <false> {non-assoc}
   Expression.Null = <null> {non-assoc}
   Expression.Undefined = <undefined> {non-assoc}
-  Expression.Identifier = <<ID>> {non-assoc}
-  Expression.String = <<STRING>> {non-assoc}
+  Expression.Identifier = ID {non-assoc}
+  Expression.String = STRING {non-assoc}
+  Expression.This = <this> {non-assoc}
   Expression.Addition = <<Expression> + <Expression>> {left}
   Expression.Substraction = <<Expression> - <Expression>> {left}
   Expression.Multiplication = <<Expression> * <Expression>> {left}
@@ -26,15 +26,36 @@ context-free syntax
   Expression.Lower = [[Expression] < [Expression]] {left}
   Expression.GreaterEquals = [[Expression] >= [Expression]] {left}
   Expression.LowerEquals = [[Expression] <= [Expression]] {left}
+  Expression.Equals = <<Expression> == <Expression>> {left}
+  Expression.EqualsStrict = <<Expression> === <Expression>> {left}
+  Expression.NotEquals = <<Expression> != <Expression>> {left}
+  Expression.NotEqualsStrict = <<Expression> !== <Expression>> {left}
   Expression.And = [[Expression] && [Expression]] {left}
   Expression.Or = [[Expression] || [Expression]] {left}
-  Expression.AnonFunction= <function(<{Parameter ","}*>) {
-  		<{Statement "\n"}*>
-	}>
+  Expression.FunctionExpression =
+    <function <ID?>(<{ID ","}*>) {
+        <{Statement "\n"}*>
+    }>
+  Expression.Negate = <- <Expression>> {non-assoc}
+  
+  
+  Expression.ObjectLiteral = <{<{ObjectProperty ","}*>}>
+  ObjectProperty.ObjectProperty = <<ID> : <Expression>>
+  ObjectProperty.PropertyFromVariable = ID  
+  
+  Expression.ArrayLiteral = <[<{Expression ","}*>]>
+  
+  Expression.Lambda = [[LambdaParameters] => [Expression]]
+  Expression.LambdaBlock = [[LambdaParameters] => [BlockStatement]] {prefer}
+  
+  LambdaParameters.LambdaParameters = <(<{ID ","}*>)>
+  LambdaParameters.SingleParameter = ID
   
 context-free priorities
+
 { left:
 	Expression.Call
+	Expression.Property
 } > 
 { left:
 	Expression.Multiplication
@@ -51,11 +72,20 @@ context-free priorities
 	Expression.LowerEquals
 } >
 { left:
+    Expression.Equals
+    Expression.EqualsStrict
+    Expression.NotEquals
+    Expression.NotEqualsStrict
+} >
+{ left:
 	Expression.And	
 } >
 { left:
 	Expression.Or	
 } >
+{ non-assoc:
+	Expression.Negate
+} >
 { left:
-	Statement.assignment
-}
+	Statement.Assignment
+} > Expression.FunctionExpression > Expression.Lambda

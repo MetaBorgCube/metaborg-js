@@ -2,8 +2,6 @@ module analysis
 
 imports
   
-  stratego/metaborg
-  
   runtime/index/-
   runtime/nabl/-
   runtime/properties/-
@@ -11,6 +9,8 @@ imports
   runtime/task/-
   runtime/analysis/-
   runtime/editor/-
+  
+  libspoofax/core/language
   
   pp
 

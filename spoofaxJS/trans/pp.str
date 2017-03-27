@@ -3,9 +3,10 @@ module pp
 imports
 
   libstratego-gpp
-  runtime/refactoring/-
   pp/spoofaxJS-parenthesize
   pp/spoofaxJS-pp
+  libspoofax/sdf/pp
+  libspoofax/editor/refactoring/-
 
 rules
 

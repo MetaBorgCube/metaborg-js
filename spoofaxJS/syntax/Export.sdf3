@@ -1,0 +1,22 @@
+module Export
+
+imports
+  Common
+  Statement
+  Import
+  Class
+  Expression
+  
+context-free syntax
+
+  Export.FromImport = <export * <FromClause>>
+  Export.FromImportBlock = <export {<{ExportSpecifier ","}*>} <FromClause>>
+  Export.ExportBlock = <export {<{ExportSpecifier ","}*>}>
+  Export.ExportDeclaration = <export <Declaration>>
+  Export.ExportDefaultDeclaration = <export default <HoistableDeclaration>>
+  Export.ExportDefaultClassDeclaration = <export default <ClassDeclaration>>
+  Export.ExportDefaultExpression = <export default <Expression>;>
+  
+  
+  ExportSpecifier.ExportSpecifier = ID
+  ExportSpecifier.NamedExportSpecifier = <<ID> as <ID>>

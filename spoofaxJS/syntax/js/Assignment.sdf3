@@ -1,7 +1,7 @@
-module Assignment
+module js/Assignment
 
 imports
-  Common
+  js/Common
   
 context-free syntax
   LeftHandSideExpression.ObjectAssignmentPattern = <{<{AssignmentProperty ",\n"}*>}>

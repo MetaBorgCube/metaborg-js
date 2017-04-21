@@ -1,7 +1,7 @@
-module Import
+module js/Import
 
 imports
-  Common
+  js/Common
 
 context-free syntax
   

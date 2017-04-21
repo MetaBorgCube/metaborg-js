@@ -1,5 +1,16 @@
-MethodCall(
-  Identifier("a")
-, "test"
-, [Identifier("a"), IntegerLiteral("3")]
+Program(
+  [ ExportDeclaration(
+      FunctionDeclaration(
+        "invalidateDirectory_files"
+      , ["state", "id"]
+      , [ BlockStatement(
+            [ LetDeclaration("entities", Identifier("id"))
+            , ExpStmt(Call(Identifier("invalidateDirectory_size"), [Identifier("id")]))
+            ]
+          )
+        , Return(Identifier("state"))
+        ]
+      )
+    )
+  ]
 )

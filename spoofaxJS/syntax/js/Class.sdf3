@@ -1,10 +1,10 @@
-module Class
+module js/Class
 
 imports
-  Common
-  Expression
-  Statement
-  Assignment
+  js/Common
+  js/Expression
+  js/Statement
+  js/Assignment
   
 context-free syntax
   ClassDeclaration.ClassDeclaration = 

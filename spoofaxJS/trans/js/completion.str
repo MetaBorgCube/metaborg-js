@@ -1,10 +1,10 @@
-module completion
+module js/completion
 
 imports
   
   runtime/completion/-
   completion/spoofaxJS-cp
-  pp
+  js/pp
   
 rules
   

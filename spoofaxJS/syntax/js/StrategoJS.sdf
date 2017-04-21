@@ -1,4 +1,4 @@
-module StrategoJS
+module js/StrategoJS
 
 imports
   StrategoMix[StrategoHost]

@@ -1,4 +1,4 @@
-module analysis
+module js/analysis
 
 imports
   
@@ -12,7 +12,7 @@ imports
   
   libspoofax/core/language
   
-  pp
+  js/pp
 
 rules // Analysis
 

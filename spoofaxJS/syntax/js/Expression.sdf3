@@ -1,9 +1,12 @@
-module Expression
+module js/Expression
 
 imports
 
-  Common
-  Statement
+  js/Common
+  js/Statement
+  
+sorts
+    CondMid
   
 context-free syntax
   Expression = < ( <Expression> ) > {bracket}
@@ -37,6 +40,9 @@ context-free syntax
         <{Statement "\n"}*>
     }>
   Expression.Negate = <- <Expression>> {non-assoc}
+  
+  Expression.Cond = <<Expression> <CondMid> <Expression>> {right}
+  CondMid = <? <Expression> :> 
   
   
   Expression.ObjectLiteral = <{<{ObjectProperty ","}*>}>
@@ -85,6 +91,9 @@ context-free priorities
 } >
 { non-assoc:
 	Expression.Negate
+} >
+{ right:
+    Expression.Cond
 } >
 { left:
 	Statement.Assignment

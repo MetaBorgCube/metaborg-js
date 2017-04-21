@@ -3,7 +3,7 @@ module JSMix[E]
 imports
 
   spoofaxJS
-  
+  js/Expression [ String => JSString ]
 
 exports
 
@@ -16,6 +16,8 @@ exports
   context-free syntax
     "js-ex"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
     "js-ex*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
+    "js-exp"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
+    "js-exp*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
     "js-stmt"  "|[" Statement "]|" -> E {cons("ToMetaExpr")}
     "js-stmt*"  "|[" Statement* "]|" -> E {cons("ToMetaExpr")}
     "js-methoddecl" "|[" MethodDecl "]|" -> E {cons("ToMetaExpr")}
@@ -35,3 +37,10 @@ exports
     "met_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
  	"met"   [0-9\']* "*"       -> MethodDecl* {prefer}
 	"met_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}
+	"x_" [A-Za-z0-9\']+        -> ID {prefer}
+	"str_" [A-Za-z0-9\']+      -> JSString { prefer }
+	
+  context-free restrictions
+    ID -/- [\_a-zA-Z0-9\']
+	
+	

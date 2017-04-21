@@ -2,10 +2,10 @@ module spoofaxjs
 
 imports
   
-  completion
-  pp
-  outline
-  analysis
+  js/completion
+  js/pp
+  js/outline
+  js/analysis
 
 rules // Debugging
   

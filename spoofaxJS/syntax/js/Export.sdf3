@@ -1,11 +1,11 @@
-module Export
+module js/Export
 
 imports
-  Common
-  Statement
-  Import
-  Class
-  Expression
+  js/Common
+  js/Statement
+  js/Import
+  js/Class
+  js/Expression
   
 context-free syntax
 

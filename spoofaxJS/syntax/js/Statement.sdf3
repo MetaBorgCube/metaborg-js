@@ -1,12 +1,12 @@
-module Statement
+module js/Statement
 
 imports
-  Common
-  Expression
-  Import
-  Export
-  Class
-  Assignment
+  js/Common
+  js/Expression
+  js/Import
+  js/Export
+  js/Class
+  js/Assignment
   
 context-free syntax
   BlockStatement.BlockStatement = 

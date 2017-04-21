@@ -1,8 +1,8 @@
-module Lexical
+module js/Lexical
 
 imports
   
-	Common
+	js/Common
 
 lexical syntax
 

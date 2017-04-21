@@ -1,92 +1,331 @@
 definition
-module MethodDecl
-imports Common Statement Expression Parameter
+module js/Expression
+imports js/Common js/Statement
 
 exports
-  context-free syntax
-    "function" ID "(" {Parameter ","}* ")" "{" Statement* "}" -> MethodDecl {cons("method")}
+  sorts CondMid
 
   context-free syntax
-    "[[MethodDecl]]" -> MethodDecl {cons("MethodDecl-Plhdr"), placeholder}
-    "[[ID]]"         -> ID         {cons("ID-Plhdr"), placeholder}
-    "[[Parameter]]"  -> Parameter  {cons("Parameter-Plhdr"), placeholder}
-    "[[Statement]]"  -> Statement  {cons("Statement-Plhdr"), placeholder}
+    "(" Expression ")"                                  -> Expression       {bracket}
+    Expression "." ID                                   -> Expression       {cons("Property"), left}
+    Expression "(" {Expression ","}* ")"                -> Expression       {cons("Call"), left}
+    INT                                                 -> Expression       {cons("IntegerLiteral"), non-assoc}
+    FLOAT                                               -> Expression       {cons("FloatLiteral"), non-assoc}
+    "true"                                              -> Expression       {cons("True"), non-assoc}
+    "false"                                             -> Expression       {cons("False"), non-assoc}
+    "null"                                              -> Expression       {cons("Null"), non-assoc}
+    "undefined"                                         -> Expression       {cons("Undefined"), non-assoc}
+    ID                                                  -> Expression       {cons("Identifier"), non-assoc}
+    STRING                                              -> Expression       {cons("String"), non-assoc}
+    "this"                                              -> Expression       {cons("This"), non-assoc}
+    Expression "+" Expression                           -> Expression       {cons("Addition"), left}
+    Expression "-" Expression                           -> Expression       {cons("Substraction"), left}
+    Expression "*" Expression                           -> Expression       {cons("Multiplication"), left}
+    Expression "/" Expression                           -> Expression       {cons("Division"), left}
+    Expression ">" Expression                           -> Expression       {cons("Greater"), left}
+    Expression "<" Expression                           -> Expression       {cons("Lower"), left}
+    Expression ">=" Expression                          -> Expression       {cons("GreaterEquals"), left}
+    Expression "<=" Expression                          -> Expression       {cons("LowerEquals"), left}
+    Expression "==" Expression                          -> Expression       {cons("Equals"), left}
+    Expression "===" Expression                         -> Expression       {cons("EqualsStrict"), left}
+    Expression "!=" Expression                          -> Expression       {cons("NotEquals"), left}
+    Expression "!==" Expression                         -> Expression       {cons("NotEqualsStrict"), left}
+    Expression "&&" Expression                          -> Expression       {cons("And"), left}
+    Expression "||" Expression                          -> Expression       {cons("Or"), left}
+    "function" ID? "(" {ID ","}* ")" "{" Statement* "}" -> Expression       {cons("FunctionExpression")}
+    "-" Expression                                      -> Expression       {cons("Negate"), non-assoc}
+    Expression CondMid Expression                       -> Expression       {cons("Cond"), right}
+    "?" Expression ":"                                  -> CondMid          {bracket}
+    "{" {ObjectProperty ","}* "}"                       -> Expression       {cons("ObjectLiteral")}
+    ID ":" Expression                                   -> ObjectProperty   {cons("ObjectProperty")}
+    ID                                                  -> ObjectProperty   {cons("PropertyFromVariable")}
+    "[" {Expression ","}* "]"                           -> Expression       {cons("ArrayLiteral")}
+    LambdaParameters "=>" Expression                    -> Expression       {cons("Lambda")}
+    LambdaParameters "=>" BlockStatement                -> Expression       {cons("LambdaBlock"), prefer}
+    "(" {ID ","}* ")"                                   -> LambdaParameters {cons("LambdaParameters")}
+    ID                                                  -> LambdaParameters {cons("SingleParameter")}
 
-module Statement
-imports Common Expression MethodDecl
-
-exports
-  context-free syntax
-    Expression ";"              -> Statement {cons("expStmt")}
-    "var" ID "=" Expression ";" -> Statement {cons("varDecl")}
-    "return" Expression ";"     -> Statement {cons("return")}
-    MethodDecl                  -> Statement 
-
-  context-free syntax
-    "[[ID]]"         -> ID         {cons("ID-Plhdr"), placeholder}
-    "[[Expression]]" -> Expression {cons("Expression-Plhdr"), placeholder}
-    "[[Statement]]"  -> Statement  {cons("Statement-Plhdr"), placeholder}
-    "[[MethodDecl]]" -> MethodDecl {cons("MethodDecl-Plhdr"), placeholder}
-
-module Parameter
-imports Common Parameter
-
-exports
-  context-free syntax
-    ID -> Parameter {cons("parameter")}
-
-  context-free syntax
-    "[[Parameter]]" -> Parameter {cons("Parameter-Plhdr"), placeholder}
-    "[[ID]]"        -> ID        {cons("ID-Plhdr"), placeholder}
-
-module Expression
-imports Common Parameter Statement
-
-exports
-  context-free syntax
-    "(" Expression ")"                                     -> Expression {bracket}
-    Expression "." ID                                      -> Expression {cons("Property"), left}
-    Expression "(" {Expression ","}* ")"                   -> Expression {cons("Call"), left}
-    INT                                                    -> Expression {cons("IntegerLiteral"), non-assoc}
-    "true"                                                 -> Expression {cons("True"), non-assoc}
-    "false"                                                -> Expression {cons("False"), non-assoc}
-    ID                                                     -> Expression {cons("Identifier"), non-assoc}
-    STRING                                                 -> Expression {cons("String"), non-assoc}
-    Expression "+" Expression                              -> Expression {cons("Addition"), left}
-    Expression "-" Expression                              -> Expression {cons("Substraction"), left}
-    Expression "*" Expression                              -> Expression {cons("Multiplication"), left}
-    "function" "(" {Parameter ","}* ")" "{" Statement* "}" -> Expression {cons("AnonFunction")}
+  lexical syntax
+    
 
   context-free syntax
-    "[[INT]]"        -> INT        {cons("INT-Plhdr"), placeholder}
-    "[[ID]]"         -> ID         {cons("ID-Plhdr"), placeholder}
-    "[[STRING]]"     -> STRING     {cons("STRING-Plhdr"), placeholder}
-    "[[Expression]]" -> Expression {cons("Expression-Plhdr"), placeholder}
-    "[[Parameter]]"  -> Parameter  {cons("Parameter-Plhdr"), placeholder}
-    "[[Statement]]"  -> Statement  {cons("Statement-Plhdr"), placeholder}
+    "[[INT]]"              -> INT              {cons("INT-Plhdr"), placeholder}
+    "[[FLOAT]]"            -> FLOAT            {cons("FLOAT-Plhdr"), placeholder}
+    "[[STRING]]"           -> STRING           {cons("STRING-Plhdr"), placeholder}
+    "[[Statement]]"        -> Statement        {cons("Statement-Plhdr"), placeholder}
+    "[[CondMid]]"          -> CondMid          {cons("CondMid-Plhdr"), placeholder}
+    "[[ObjectProperty]]"   -> ObjectProperty   {cons("ObjectProperty-Plhdr"), placeholder}
+    "[[Expression]]"       -> Expression       {cons("Expression-Plhdr"), placeholder}
+    "[[BlockStatement]]"   -> BlockStatement   {cons("BlockStatement-Plhdr"), placeholder}
+    "[[LambdaParameters]]" -> LambdaParameters {cons("LambdaParameters-Plhdr"), placeholder}
+    "[[ID]]"               -> ID               {cons("ID-Plhdr"), placeholder}
 
   context-free priorities
     {left:
       Expression "(" {Expression ","}* ")" -> Expression
+      Expression "." ID -> Expression
     } >
     {left:
       Expression "*" Expression -> Expression
+      Expression "/" Expression -> Expression
     } >
     {left:
       Expression "+" Expression -> Expression
       Expression "-" Expression -> Expression
-    }
+    } >
+    {left:
+      Expression ">" Expression -> Expression
+      Expression "<" Expression -> Expression
+      Expression ">=" Expression -> Expression
+      Expression "<=" Expression -> Expression
+    } >
+    {left:
+      Expression "==" Expression -> Expression
+      Expression "===" Expression -> Expression
+      Expression "!=" Expression -> Expression
+      Expression "!==" Expression -> Expression
+    } >
+    {left:
+      Expression "&&" Expression -> Expression
+    } >
+    {left:
+      Expression "||" Expression -> Expression
+    } >
+    {non-assoc:
+      "-" Expression -> Expression
+    } >
+    {right:
+      Expression CondMid Expression -> Expression
+    } >
+    {left:
+      Expression "=" Expression ";" -> Statement
+    } >
+    "function" ID? "(" {ID ","}* ")" "{" Statement* "}" -> Expression >
+    LambdaParameters "=>" Expression -> Expression
 
-module Common
+module js/Assignment
+imports js/Common
+
+exports
+  context-free syntax
+    "{" {AssignmentProperty ","}* "}" -> LeftHandSideExpression {cons("ObjectAssignmentPattern")}
+    "[" AssignElements "]"            -> LeftHandSideExpression {cons("ArrayAssignmentPattern")}
+    ID                                -> LeftHandSideExpression 
+    ID                                -> AssignmentProperty     
+    ID ":" LeftHandSideExpression     -> AssignmentProperty     {cons("Reference")}
+    LeftHandSideExpression            -> AssignElement          {cons("AssignElement")}
+                                      -> AssignElement          {cons("Elision")}
+    Elem ElemTail*                    -> AssignElements         {cons("AssignElements")}
+                                      -> Elem                   {cons("NoElement")}
+    LeftHandSideExpression            -> Elem                   
+    "," LeftHandSideExpression        -> ElemTail               {cons("CommaRule")}
+    ","                               -> ElemTail               {cons("Empty")}
+    LeftHandSideExpression            -> AssignmentElement      
+    "..." LeftHandSideExpression      -> AssignmentElement      {cons("RestElement")}
+
+  lexical syntax
+    
+
+  context-free syntax
+    "[[AssignmentProperty]]"     -> AssignmentProperty     {cons("AssignmentProperty-Plhdr"), placeholder}
+    "[[ID]]"                     -> ID                     {cons("ID-Plhdr"), placeholder}
+    "[[AssignElement]]"          -> AssignElement          {cons("AssignElement-Plhdr"), placeholder}
+    "[[AssignElements]]"         -> AssignElements         {cons("AssignElements-Plhdr"), placeholder}
+    "[[Elem]]"                   -> Elem                   {cons("Elem-Plhdr"), placeholder}
+    "[[ElemTail]]"               -> ElemTail               {cons("ElemTail-Plhdr"), placeholder}
+    "[[AssignmentElement]]"      -> AssignmentElement      {cons("AssignmentElement-Plhdr"), placeholder}
+    "[[LeftHandSideExpression]]" -> LeftHandSideExpression {cons("LeftHandSideExpression-Plhdr"), placeholder}
+
+module js/Class
+imports js/Common js/Expression js/Statement js/Assignment
+
+exports
+  context-free syntax
+    "class" ID ClassHeritage "{" ClassBody "}"                  -> ClassDeclaration {cons("ClassDeclaration")}
+    "extends" Expression                                        -> ClassHeritage    {cons("Extends")}
+                                                                -> ClassHeritage    {cons("ExtendsObject")}
+    {ClassElement "\n"}*                                        -> ClassBody        {cons("ClassBody")}
+    ID "(" {LeftHandSideExpression ","}* ")" "{" Statement* "}" -> ClassElement     {cons("MethodDefinition")}
+
+  lexical syntax
+    
+
+  context-free syntax
+    "[[ClassDeclaration]]"       -> ClassDeclaration       {cons("ClassDeclaration-Plhdr"), placeholder}
+    "[[Expression]]"             -> Expression             {cons("Expression-Plhdr"), placeholder}
+    "[[ClassHeritage]]"          -> ClassHeritage          {cons("ClassHeritage-Plhdr"), placeholder}
+    "[[ClassBody]]"              -> ClassBody              {cons("ClassBody-Plhdr"), placeholder}
+    "[[ClassElement]]"           -> ClassElement           {cons("ClassElement-Plhdr"), placeholder}
+    "[[ID]]"                     -> ID                     {cons("ID-Plhdr"), placeholder}
+    "[[LeftHandSideExpression]]" -> LeftHandSideExpression {cons("LeftHandSideExpression-Plhdr"), placeholder}
+    "[[Statement]]"              -> Statement              {cons("Statement-Plhdr"), placeholder}
+
+module js/Export
+imports js/Common js/Statement js/Import js/Class js/Expression
+
+exports
+  context-free syntax
+    "export" "*" FromClause                            -> Export          {cons("FromImport")}
+    "export" "{" {ExportSpecifier ","}* "}" FromClause -> Export          {cons("FromImportBlock")}
+    "export" "{" {ExportSpecifier ","}* "}"            -> Export          {cons("ExportBlock")}
+    "export" Declaration                               -> Export          {cons("ExportDeclaration")}
+    "export" "default" HoistableDeclaration            -> Export          {cons("ExportDefaultDeclaration")}
+    "export" "default" ClassDeclaration                -> Export          {cons("ExportDefaultClassDeclaration")}
+    "export" "default" Expression ";"                  -> Export          {cons("ExportDefaultExpression")}
+    ID                                                 -> ExportSpecifier {cons("ExportSpecifier")}
+    ID "as" ID                                         -> ExportSpecifier {cons("NamedExportSpecifier")}
+
+  lexical syntax
+    
+
+  context-free syntax
+    "[[FromClause]]"           -> FromClause           {cons("FromClause-Plhdr"), placeholder}
+    "[[Declaration]]"          -> Declaration          {cons("Declaration-Plhdr"), placeholder}
+    "[[HoistableDeclaration]]" -> HoistableDeclaration {cons("HoistableDeclaration-Plhdr"), placeholder}
+    "[[ClassDeclaration]]"     -> ClassDeclaration     {cons("ClassDeclaration-Plhdr"), placeholder}
+    "[[Export]]"               -> Export               {cons("Export-Plhdr"), placeholder}
+    "[[Expression]]"           -> Expression           {cons("Expression-Plhdr"), placeholder}
+    "[[ExportSpecifier]]"      -> ExportSpecifier      {cons("ExportSpecifier-Plhdr"), placeholder}
+    "[[ID]]"                   -> ID                   {cons("ID-Plhdr"), placeholder}
+
+module js/Import
+imports js/Common
+
+exports
+  context-free syntax
+    "import" ImportClause FromClause ";" -> Import           {cons("Import")}
+    ID                                   -> ImportClause     {cons("ImportedDefaultBinding")}
+    ImportedBinding "," NonDefaultImport -> ImportClause     {cons("DefaultWithNonDefaultImport")}
+    "*" "as" ImportedBinding             -> ImportClause     {cons("NameSpaceImport")}
+    "{" {ImportSpecifier ","}* "}"       -> ImportClause     {cons("NamedImports")}
+    ID                                   -> ImportedBinding  
+    "*" "as" ID                          -> NameSpaceImport  {cons("NameSpaceImport")}
+    "{" ImportSpecifier "\",\"}*"        -> NamedImports     {cons("NamedImports")}
+    ImportedBinding                      -> ImportSpecifier  
+    ID "as" ImportedBinding              -> ImportSpecifier  {cons("NamedImportSpecifier")}
+    NameSpaceImport                      -> NonDefaultImport 
+    NamedImports                         -> NonDefaultImport 
+    "from" STRING                        -> FromClause       {cons("FromClause")}
+
+  lexical syntax
+    
+
+  context-free syntax
+    "[[Import]]"           -> Import           {cons("Import-Plhdr"), placeholder}
+    "[[ImportClause]]"     -> ImportClause     {cons("ImportClause-Plhdr"), placeholder}
+    "[[ImportSpecifier]]"  -> ImportSpecifier  {cons("ImportSpecifier-Plhdr"), placeholder}
+    "[[ID]]"               -> ID               {cons("ID-Plhdr"), placeholder}
+    "[[ImportedBinding]]"  -> ImportedBinding  {cons("ImportedBinding-Plhdr"), placeholder}
+    "[[NameSpaceImport]]"  -> NameSpaceImport  {cons("NameSpaceImport-Plhdr"), placeholder}
+    "[[NonDefaultImport]]" -> NonDefaultImport {cons("NonDefaultImport-Plhdr"), placeholder}
+    "[[NamedImports]]"     -> NamedImports     {cons("NamedImports-Plhdr"), placeholder}
+    "[[FromClause]]"       -> FromClause       {cons("FromClause-Plhdr"), placeholder}
+    "[[STRING]]"           -> STRING           {cons("STRING-Plhdr"), placeholder}
+
+module js/Statement
+imports js/Common js/Expression js/Import js/Export js/Class js/Assignment
+
+exports
+  context-free syntax
+    "{" Statement* "}"                                                     -> BlockStatement       {cons("BlockStatement")}
+    BlockStatement                                                         -> Statement            
+    Expression ";"                                                         -> Statement            {cons("ExpStmt"), prefer}
+    Expression "=" Expression ";"                                          -> Statement            {cons("Assignment")}
+    "for" "(" Declaration Expression ";" Expression ")" "{" Statement* "}" -> Statement            {cons("For")}
+    "while" "(" Expression ")" "{" Statement* "}"                          -> Statement            {cons("While")}
+    "if" "(" Expression ")" Statement                                      -> Statement            {cons("If"), prefer}
+    "if" "(" Expression ")" Statement "else" Statement                     -> Statement            {cons("IfElse")}
+    "return" Expression ";"                                                -> Statement            {cons("Return")}
+    Import                                                                 -> Statement            
+    Export                                                                 -> Statement            
+    Declaration                                                            -> Statement            
+    ClassDeclaration                                                       -> Statement            
+    "var" LeftHandSideExpression "=" Expression ";"                        -> Declaration          {cons("VarDeclaration")}
+    "const" LeftHandSideExpression "=" Expression ";"                      -> Declaration          {cons("ConstDeclaration")}
+    "let" LeftHandSideExpression "=" Expression ";"                        -> Declaration          {cons("LetDeclaration")}
+    HoistableDeclaration                                                   -> Declaration          
+    FunctionDeclaration                                                    -> HoistableDeclaration 
+    "function" ID "(" {LeftHandSideExpression ","}* ")" "{" Statement* "}" -> FunctionDeclaration  {cons("FunctionDeclaration")}
+
+  lexical syntax
+    
+
+  context-free syntax
+    "[[BlockStatement]]"         -> BlockStatement         {cons("BlockStatement-Plhdr"), placeholder}
+    "[[Import]]"                 -> Import                 {cons("Import-Plhdr"), placeholder}
+    "[[Export]]"                 -> Export                 {cons("Export-Plhdr"), placeholder}
+    "[[ClassDeclaration]]"       -> ClassDeclaration       {cons("ClassDeclaration-Plhdr"), placeholder}
+    "[[Expression]]"             -> Expression             {cons("Expression-Plhdr"), placeholder}
+    "[[Declaration]]"            -> Declaration            {cons("Declaration-Plhdr"), placeholder}
+    "[[HoistableDeclaration]]"   -> HoistableDeclaration   {cons("HoistableDeclaration-Plhdr"), placeholder}
+    "[[FunctionDeclaration]]"    -> FunctionDeclaration    {cons("FunctionDeclaration-Plhdr"), placeholder}
+    "[[ID]]"                     -> ID                     {cons("ID-Plhdr"), placeholder}
+    "[[LeftHandSideExpression]]" -> LeftHandSideExpression {cons("LeftHandSideExpression-Plhdr"), placeholder}
+    "[[Statement]]"              -> Statement              {cons("Statement-Plhdr"), placeholder}
+
+  context-free priorities
+    "if" "(" Expression ")" Statement "else" Statement -> Statement
+    <4> . >
+    "if" "(" Expression ")" Statement -> Statement
+
+module js/Lexical
+imports js/Common
+
+exports
+  lexical syntax
+    KEYWORD      -> ID      {reject}
+    "break"      -> KEYWORD 
+    "case"       -> KEYWORD 
+    "catch"      -> KEYWORD 
+    "class"      -> KEYWORD 
+    "const"      -> KEYWORD 
+    "continue"   -> KEYWORD 
+    "debugger"   -> KEYWORD 
+    "default"    -> KEYWORD 
+    "delete"     -> KEYWORD 
+    "do"         -> KEYWORD 
+    "else"       -> KEYWORD 
+    "export"     -> KEYWORD 
+    "extends"    -> KEYWORD 
+    "finally"    -> KEYWORD 
+    "for"        -> KEYWORD 
+    "function"   -> KEYWORD 
+    "if"         -> KEYWORD 
+    "import"     -> KEYWORD 
+    "in"         -> KEYWORD 
+    "instanceof" -> KEYWORD 
+    "new"        -> KEYWORD 
+    "return"     -> KEYWORD 
+    "super"      -> KEYWORD 
+    "switch"     -> KEYWORD 
+    "this"       -> KEYWORD 
+    "throw"      -> KEYWORD 
+    "try"        -> KEYWORD 
+    "typeof"     -> KEYWORD 
+    "var"        -> KEYWORD 
+    "void"       -> KEYWORD 
+    "while"      -> KEYWORD 
+    "with"       -> KEYWORD 
+    "yield"      -> KEYWORD 
+    "true"       -> KEYWORD 
+    "false"      -> KEYWORD 
+    "null"       -> KEYWORD 
+    "undefined"  -> KEYWORD 
+
+module js/Common
 exports
   lexical syntax
     [a-zA-Z\_] [a-zA-Z0-9\_]* -> ID            
-    "-"? [0-9]+               -> INT           
+    [0-9]+                    -> INT           
+    [0-9]+ "." [0-9]+         -> FLOAT         
     "\"" StringChar* "\""     -> STRING        
-    "'" StringChar* "'"       -> STRING        
+    "'" AltStringChar* "'"    -> STRING        
     ~[\"\n]                   -> StringChar    
     "\\\""                    -> StringChar    
     BackSlashChar             -> StringChar    
+    ~[\'\n]                   -> AltStringChar 
+    "\\'"                     -> AltStringChar 
+    BackSlashChar             -> AltStringChar 
     "\\"                      -> BackSlashChar 
     [\ \t\n\r]                -> LAYOUT        
     [\*]                      -> CommentChar   
@@ -111,15 +350,17 @@ exports
     LAYOUT? -/- [\/] . [\*]
 
 module spoofaxJS
-imports Common Expression Statement MethodDecl
+imports js/Common js/Lexical js/Expression js/Statement
 
 exports
   context-free start-symbols
-    Start MethodDecl Expression Statement
+    Start
 
   context-free syntax
-               -> Start {cons("Empty")}
     Statement* -> Start {cons("Program")}
+
+  lexical syntax
+    
 
   context-free syntax
     "[[Start]]"     -> Start     {cons("Start-Plhdr"), placeholder}
@@ -130,7 +371,7 @@ module JSMix[E]
 imports
 
   spoofaxJS
-  
+  js/Expression [ String => JSString ]
 
 exports
 
@@ -143,6 +384,8 @@ exports
   context-free syntax
     "js-ex"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
     "js-ex*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
+    "js-exp"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
+    "js-exp*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
     "js-stmt"  "|[" Statement "]|" -> E {cons("ToMetaExpr")}
     "js-stmt*"  "|[" Statement* "]|" -> E {cons("ToMetaExpr")}
     "js-methoddecl" "|[" MethodDecl "]|" -> E {cons("ToMetaExpr")}
@@ -150,18 +393,23 @@ exports
     "js-program" "|[" Start "]|" -> E {cons("ToMetaExpr")}
     
   variables
-    "e"   [0-9\']*           -> Expression {prefer}
-    "e_"  [A-Za-z0-9\']+     -> Expression {prefer}
- 	"f"   [0-9\']* "*"       -> Expression* {prefer}
-	"f_"  [A-Za-z0-9\']+ "*" -> Expression* {prefer}
-    "s"   [0-9\']*           -> Statement {prefer}
-    "s_"  [A-Za-z0-9\']+     -> Statement {prefer}
- 	"s"   [0-9\']* "*"       -> Statement* {prefer}
-	"s_"  [A-Za-z0-9\']+ "*" -> Statement* {prefer}
-    "m"   [0-9\']*           -> MethodDecl {prefer}
-    "m_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
- 	"m"   [0-9\']* "*"       -> MethodDecl* {prefer}
-	"m_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}
+    "exp"   [0-9\']*           -> Expression {prefer}
+    "exp_"  [A-Za-z0-9\']+     -> Expression {prefer}
+ 	"exp"   [0-9\']* "*"       -> {Expression ","}* {prefer}
+	"exp_"  [A-Za-z0-9\']+ "*" -> {Expression ","}* {prefer}
+    "stmt"   [0-9\']*           -> Statement {prefer}
+    "stmt_"  [A-Za-z0-9\']+     -> Statement {prefer}
+ 	"stmt"   [0-9\']* "*"       -> Statement* {prefer}
+	"stmt_"  [A-Za-z0-9\']+ "*" -> Statement* {prefer}
+    "met"   [0-9\']*           -> MethodDecl {prefer}
+    "met_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
+ 	"met"   [0-9\']* "*"       -> MethodDecl* {prefer}
+	"met_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}
+	"x_" [A-Za-z0-9\']+        -> ID {prefer}
+	"str_" [A-Za-z0-9\']+      -> JSString { prefer }
+	
+  context-free restrictions
+    ID -/- [\_a-zA-Z0-9\']
 
 module Stratego-Sugar-Overlays
 imports
@@ -1111,7 +1359,7 @@ imports Stratego
             Strategy           => Strategy[[Ctx0]] ]
 
 
-module StrategoJS
+module js/StrategoJS
 
 imports
   StrategoMix[StrategoHost]

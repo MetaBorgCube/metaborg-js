@@ -2,10 +2,10 @@ module spoofaxJS
 
 imports
   
-  Common
-  Lexical
-  Expression
-  Statement
+  js/Common
+  js/Lexical
+  js/Expression
+  js/Statement
 
 context-free start-symbols
   

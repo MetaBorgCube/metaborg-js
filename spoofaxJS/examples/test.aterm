@@ -1,0 +1,12 @@
+Program(
+  [ amb(
+      [ ExpStmt(
+          Addition(LambdaBlock(LambdaParameters([]), BlockStatement([])), Identifier("x"))
+        )
+      , ExpStmt(
+          Lambda(LambdaParameters([]), Addition(ObjectLiteral([]), Identifier("x")))
+        )
+      ]
+    )
+  ]
+)

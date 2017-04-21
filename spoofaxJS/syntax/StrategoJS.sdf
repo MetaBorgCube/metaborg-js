@@ -1,0 +1,7 @@
+module StrategoJS
+
+imports
+  StrategoMix[StrategoHost]
+  JSMix[ Term[[StrategoHost]] ]
+hiddens
+  context-free start-symbols Module[[StrategoHost]] 

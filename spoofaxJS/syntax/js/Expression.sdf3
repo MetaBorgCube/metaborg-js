@@ -39,15 +39,25 @@ context-free syntax
     <function <ID?>(<{ID ","}*>) {
         <{Statement "\n"}*>
     }>
+    
+  Expression.Not =<!<Expression>> {non-assoc}
   Expression.Negate = <- <Expression>> {non-assoc}
+  Expression.Increment = <<Expression>++>
+  Expression.Decrement = <<Expression>-->
+  
   
   Expression.Cond = <<Expression> <CondMid> <Expression>> {right}
-  CondMid = <? <Expression> :> 
+  CondMid.CondMid = <? <Expression> :>
   
   
-  Expression.ObjectLiteral = <{<{ObjectProperty ","}*>}>
-  ObjectProperty.ObjectProperty = <<ID> : <Expression>>
+  
+  Expression.ObjectLiteral = 
+<{
+  <{ObjectProperty ",\n"}*>
+}>
+
   ObjectProperty.PropertyFromVariable = ID  
+  ObjectProperty.ObjectProperty = <<Expression> : <Expression>>
   
   Expression.ArrayLiteral = <[<{Expression ","}*>]>
   
@@ -96,5 +106,5 @@ context-free priorities
     Expression.Cond
 } >
 { left:
-	Statement.Assignment
+	Statement.DeclarationStatement
 } > Expression.FunctionExpression > Expression.Lambda

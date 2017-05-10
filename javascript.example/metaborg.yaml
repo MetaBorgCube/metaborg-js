@@ -1,0 +1,13 @@
+---
+id: org.metaborg:javascript.example:0.1.0-SNAPSHOT
+name: javascript
+dependencies:
+  compile:
+  - org.metaborg:javascript:0.1.0-SNAPSHOT
+debug:
+  typesmart: false
+runtime:
+  nabl2:
+    debug: analysis files
+build:
+  useBuildSystemSpec: true

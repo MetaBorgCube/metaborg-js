@@ -1,0 +1,69 @@
+module js/Statement
+
+imports
+  js/Common
+  js/Expression
+  js/Import
+  js/Export
+  js/Class
+  js/Assignment
+  
+context-free syntax
+  BlockStatement.BlockStatement = 
+<{
+  <{Statement "\n"}*>
+}>
+    
+  Statement = BlockStatement 
+  Statement.ExpStmt = <<Expression>;> { prefer }
+  Statement.For = 
+<for (<Declaration> ; <Expression> ; <Expression>) {
+  <{Statement "\n"}*>
+}>
+
+  Statement.ForOf = 
+<for (<Declaration> of <Expression>){
+  <{Statement "\n"}*>
+}>
+  Statement.ForIn = 
+<for (<Declaration> in <Expression>){
+  <{Statement "\n"}*>
+}>
+
+
+  Statement.While = 
+<while (<Expression>) {
+  <{Statement "\n"}*>
+}>
+	
+	
+  Statement.If      = <if(<Expression>) <Statement>> {prefer}
+  Statement.IfElse  = <if(<Expression>) <Statement> else <Statement>>
+  
+  
+  Statement.Return = <return <Expression>;>
+  Statement = Import
+  Statement = Export
+  Statement.DeclarationStatement = <<Declaration>;>
+  Statement = FunctionDeclaration
+  Statement = ClassDeclaration
+  
+  InitializeAssignment.InitializeAssignment = < = <Expression>>
+  
+  Declaration.VarDeclaration = <var <LeftHandSideExpression> <InitializeAssignment?>>
+  Declaration.ConstDeclaration = <const <LeftHandSideExpression> <InitializeAssignment?>>
+  Declaration.LetDeclaration = <let <LeftHandSideExpression> <InitializeAssignment?>>
+  Declaration.GlobalDeclaration = <<LeftHandSideExpression> <InitializeAssignment?>>
+//  Declaration = HoistableDeclaration 
+
+  HoistableDeclaration = FunctionDeclaration
+//  HoistableDeclaration = GeneratorDeclaration
+  
+  FunctionDeclaration.FunctionDeclaration =
+<function <ID>(<{LeftHandSideExpression ","}*>) {
+  <{Statement "\n"}*>
+}>
+  
+context-free priorities
+  Statement.IfElse <4>.> Statement.If
+  

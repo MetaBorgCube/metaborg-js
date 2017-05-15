@@ -1,0 +1,22 @@
+module test
+
+language javascript
+
+test prettyprinter does not fail [[
+import _ from "lodash";
+
+if(2 + 3 * 4 > 0){
+
+}
+
+while(!true){
+
+}
+
+for(let x of [ [1] ]){
+  for(x of x){
+    console.log(x);
+  }
+}
+
+]] transform "Syntax -> Format"

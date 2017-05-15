@@ -1,0 +1,51 @@
+module js/Lexical
+
+imports
+  
+	js/Common
+
+lexical syntax
+
+    // Reserved Words 
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-reserved-words
+    ID = KEYWORD {reject}
+    KEYWORD = "break"
+    KEYWORD = "case"
+    KEYWORD = "catch"
+	KEYWORD = "class"
+	KEYWORD = "const"
+	KEYWORD = "continue"
+	KEYWORD = "debugger"
+	KEYWORD = "default"
+	KEYWORD = "delete"
+	KEYWORD = "do"
+	KEYWORD = "else"
+	KEYWORD = "export"
+	KEYWORD = "extends"
+	KEYWORD = "finally"
+	KEYWORD = "for"
+	KEYWORD = "function"
+	KEYWORD = "if"
+	KEYWORD = "import"
+	KEYWORD = "in"
+	KEYWORD = "instanceof"
+	KEYWORD = "new"
+	KEYWORD = "return"
+	KEYWORD = "super"
+	KEYWORD = "switch"
+	KEYWORD = "this"
+	KEYWORD = "throw"
+	KEYWORD = "try"
+	KEYWORD = "typeof"
+	KEYWORD = "var"
+	KEYWORD = "void"
+	KEYWORD = "while"
+	KEYWORD = "with"
+	KEYWORD = "yield"
+	
+	KEYWORD = "true"
+	KEYWORD = "false"
+	KEYWORD = "null"
+	KEYWORD = "undefined"
+	
+	

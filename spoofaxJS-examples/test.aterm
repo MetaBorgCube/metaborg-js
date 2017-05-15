@@ -1,5 +1,0 @@
-MethodCall(
-  Identifier("a")
-, "test"
-, [Identifier("a"), IntegerLiteral("3")]
-)

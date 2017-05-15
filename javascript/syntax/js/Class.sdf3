@@ -1,0 +1,23 @@
+module js/Class
+
+imports
+  js/Common
+  js/Expression
+  js/Statement
+  js/Assignment
+  
+context-free syntax
+  ClassDeclaration.ClassDeclaration = 
+    <class <ID> <ClassHeritage>  {
+       <ClassBody>
+     }>
+  
+  ClassHeritage.Extends = <extends <Expression>>
+  ClassHeritage.ExtendsObject = <>
+  
+  ClassBody.ClassBody = {ClassElement "\n"}*
+  
+  ClassElement.MethodDefinition =
+    <<ID>(<{LeftHandSideExpression ","}*>){
+      <Statement*>  
+    }>

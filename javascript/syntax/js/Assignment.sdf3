@@ -1,0 +1,31 @@
+module js/Assignment
+
+imports
+  js/Common
+  
+context-free syntax
+  LeftHandSideExpression.ObjectAssignmentPattern = <{<{AssignmentProperty ",\n"}*>}>
+  LeftHandSideExpression.ArrayAssignmentPattern = <[<AssignElements>]>
+  LeftHandSideExpression = ID
+  
+  
+  AssignmentProperty = ID
+  AssignmentProperty.Reference = <<ID> : <LeftHandSideExpression>>
+  
+  AssignElement.AssignElement = LeftHandSideExpression
+  AssignElement.Elision = <>
+  
+  
+  
+  AssignElements.AssignElements = <<Elem> <ElemTail*>> 
+  
+  Elem.NoElement = <>
+  Elem = LeftHandSideExpression
+
+  ElemTail.CommaRule = <, <LeftHandSideExpression>>
+  ElemTail.Empty = <,>
+  
+  AssignmentElement = LeftHandSideExpression
+  AssignmentElement.RestElement = <... <LeftHandSideExpression>>
+  
+  

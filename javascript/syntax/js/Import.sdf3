@@ -1,0 +1,27 @@
+module js/Import
+
+imports
+  js/Common
+
+context-free syntax
+  
+  Import.Import = <import <ImportClause> <FromClause> ; >
+  
+  ImportClause.ImportedDefaultBinding = ID
+  ImportClause.DefaultWithNonDefaultImport = <<ImportedBinding>, <NonDefaultImport>>
+  ImportClause.NameSpaceImport = <* as <ImportedBinding>>
+  ImportClause.NamedImports = <{<{ ImportSpecifier ","}*>}>
+  
+  ImportedBinding = ID
+  
+  NameSpaceImport.NameSpaceImport = <* as <ID>>
+  
+  NamedImports.NamedImports = <{<ImportSpecifier> ","}*>
+  
+  ImportSpecifier = ImportedBinding
+  ImportSpecifier.NamedImportSpecifier = <<ID> as <ImportedBinding>>
+  
+  NonDefaultImport = NameSpaceImport
+  NonDefaultImport = NamedImports
+  
+  FromClause.FromClause = <from <STRING>>

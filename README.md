@@ -1,4 +1,4 @@
-[![Build status](http://buildfarm.metaborg.org/job/metaborgcube/job/metaborg-js/job/feature-es6/badge/icon)](http://buildfarm.metaborg.org/job/metaborgcube/job/metaborg-js/job/feature-es6/)
+[![Build status](http://buildfarm.metaborg.org/job/metaborgcube/job/metaborg-js/job/master/badge/icon)](http://buildfarm.metaborg.org/job/metaborgcube/job/metaborg-js/job/master/)
 
 # metaborg-js
 

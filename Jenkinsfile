@@ -19,14 +19,15 @@ node{
     }
 
     stage('Build and Test') {
-      withMaven(
-        mavenLocalRepo: "${env.JENKINS_HOME}/m2repos/${env.EXECUTOR_NUMBER}", //http://yellowgrass.org/issue/SpoofaxWithCore/173
-	//mavenLocalRepo: ".repository",
-        mavenOpts: '-Xmx2G -Xms2G -Xss16m'
-      ){
-        sh 'mvn -B -U clean verify -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
-      }
+    withMaven(
+      //mavenLocalRepo: "${env.JENKINS_HOME}/m2repos/${env.EXECUTOR_NUMBER}", //http://yellowgrass.org/issue/SpoofaxWithCore/173
+      mavenLocalRepo: ".repository",
+      globalMavenSettingsFilePath: ".mvn/settings.xml",
+      mavenOpts: '-Xmx2G -Xms2G -Xss16m'
+    ){
+      sh 'mvn -B -U clean verify -DforceContextQualifier=\$(date +%Y%m%d%H%M)'
     }
+  }
 
     stage('Archive') {
       archiveArtifacts(

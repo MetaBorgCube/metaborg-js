@@ -53,7 +53,12 @@ context-free syntax
   Declaration.VarDeclaration = <var <LeftHandSideExpression> <InitializeAssignment?>>
   Declaration.ConstDeclaration = <const <LeftHandSideExpression> <InitializeAssignment?>>
   Declaration.LetDeclaration = <let <LeftHandSideExpression> <InitializeAssignment?>>
-  Declaration.GlobalDeclaration = <<LeftHandSideExpression> <InitializeAssignment?>>
+  Declaration = TopLevelDeclaration
+  
+  
+  TopLevelDeclaration.GlobalDeclaration = <<LeftHandSideExpression> <InitializeAssignment>> 
+  TopLevelDeclaration.ExpressionAssignment = <<Expression> <InitializeAssignment>>
+  
 //  Declaration = HoistableDeclaration 
 
   HoistableDeclaration = FunctionDeclaration

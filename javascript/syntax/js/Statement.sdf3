@@ -48,7 +48,7 @@ context-free syntax
   Statement = FunctionDeclaration
   Statement = ClassDeclaration
   
-  InitializeAssignment.InitializeAssignment = < = <Expression>>
+  InitializeAssignment.InitializeAssignment = <= <Expression>>
   
   Declaration.VarDeclaration = <var <LeftHandSideExpression> <InitializeAssignment?>>
   Declaration.ConstDeclaration = <const <LeftHandSideExpression> <InitializeAssignment?>>
@@ -56,7 +56,7 @@ context-free syntax
   Declaration = TopLevelDeclaration
   
   
-  TopLevelDeclaration.GlobalDeclaration = <<LeftHandSideExpression> <InitializeAssignment>> 
+  TopLevelDeclaration.GlobalDeclaration = <<LeftHandSideExpression> <InitializeAssignment?>> {prefer}
   TopLevelDeclaration.ExpressionAssignment = <<Expression> <InitializeAssignment>>
   
 //  Declaration = HoistableDeclaration 
@@ -67,7 +67,9 @@ context-free syntax
   FunctionDeclaration.FunctionDeclaration =
 <function <ID>(<{LeftHandSideExpression ","}*>) {
   <{Statement "\n"}*>
-}>
+}
+
+>
   
 context-free priorities
   Statement.IfElse <4>.> Statement.If

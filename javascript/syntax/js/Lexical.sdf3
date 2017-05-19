@@ -6,12 +6,12 @@ imports
 
 lexical syntax
 
-    // Reserved Words 
-    // http://www.ecma-international.org/ecma-262/6.0/#sec-reserved-words
-    ID = KEYWORD {reject}
-    KEYWORD = "break"
-    KEYWORD = "case"
-    KEYWORD = "catch"
+  // Reserved Words 
+  // http://www.ecma-international.org/ecma-262/6.0/#sec-reserved-words
+  ID = KEYWORD {reject}
+  KEYWORD = "break"
+  KEYWORD = "case"
+  KEYWORD = "catch"
 	KEYWORD = "class"
 	KEYWORD = "const"
 	KEYWORD = "continue"

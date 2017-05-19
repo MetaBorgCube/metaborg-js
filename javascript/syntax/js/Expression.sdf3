@@ -25,6 +25,7 @@ context-free syntax
   Expression.Substraction = <<Expression> - <Expression>> {left}
   Expression.Multiplication = <<Expression> * <Expression>> {left}
   Expression.Division = <<Expression> / <Expression>> {left}
+  Expression.Modulo = <<Expression> % <Expression>> {left}
   Expression.Greater = [[Expression] > [Expression]] {left}
   Expression.Lower = [[Expression] < [Expression]] {left}
   Expression.GreaterEquals = [[Expression] >= [Expression]] {left}
@@ -39,6 +40,8 @@ context-free syntax
     <function <ID?>(<{ID ","}*>) {
         <{Statement "\n"}*>
     }>
+  
+  Expression.Index = <<Expression>[<Expression>]> {left}
     
   Expression.Not =<!<Expression>> {non-assoc}
   Expression.Negate = <- <Expression>> {non-assoc}
@@ -72,10 +75,12 @@ context-free priorities
 { left:
 	Expression.Call
 	Expression.Property
+	Expression.Index
 } > 
 { left:
 	Expression.Multiplication
 	Expression.Division
+	Expression.Modulo
 } >
 { left:
 	Expression.Addition

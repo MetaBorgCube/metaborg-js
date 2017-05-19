@@ -2,9 +2,14 @@ module js/Assignment
 
 imports
   js/Common
+  js/Expression
   
 context-free syntax
-  LeftHandSideExpression.ObjectAssignmentPattern = <{<{AssignmentProperty ",\n"}*>}>
+  LeftHandSideExpression.ObjectAssignmentPattern = 
+<{
+  <{AssignmentProperty ",\n"}*>
+}
+>
   LeftHandSideExpression.ArrayAssignmentPattern = <[<AssignElements>]>
   LeftHandSideExpression = ID
   

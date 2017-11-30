@@ -1,4 +1,4 @@
-module desugaring/expression
+module js/desugaring/expression
 
 imports
   signatures/js/Expression-sig

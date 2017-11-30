@@ -1,8 +1,8 @@
-module editor/builders
+module js/editor/builders
 
 imports 
-  util/js-util
-  desugaring/desugaring
+  js/util
+  js/desugaring/desugaring
 
 rules
   desugar-to-es5: (target, position, ast, path, project-path) -> (filename, result)

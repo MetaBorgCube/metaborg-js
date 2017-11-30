@@ -1,10 +1,10 @@
-module desugaring/class
+module js/desugaring/class
 
 imports
   signatures/js/Class-sig
   signatures/js/Expression-sig
   signatures/js/Statement-sig
-  util/js-util
+  js/util
 
 signature
   constructors

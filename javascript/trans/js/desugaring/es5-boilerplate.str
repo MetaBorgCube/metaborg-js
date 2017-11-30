@@ -1,4 +1,4 @@
-module desugaring/es5-boilerplate
+module js/desugaring/es5-boilerplate
 
 imports
   signatures/js/Expression-sig

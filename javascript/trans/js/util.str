@@ -1,4 +1,4 @@
-module util/js-util
+module js/util
 
 imports
     signatures/js/Expression-sig
@@ -15,7 +15,6 @@ rules
     ; !V([], <id>)
     ; box2text-string(|120)
 
-
     js-program = where(is-list) ; ?stmts_program ; !js-program |[stmts_program]|
     js-program = ![<id>] ; js-program
 
@@ -25,7 +24,6 @@ rules
     js-float: s -> FloatLiteral(s)
     js-true = !True()
     js-false = !False()
-    
     
     js-add    : (lhs, rhs) -> Addition(lhs, rhs)
     js-sub    : (lhs, rhs) -> Substraction(lhs, rhs)

@@ -5,7 +5,7 @@ imports
   completion/completion
   pp
   outline
-  editor/builders
+  js/editor/builders
 
 rules // Debugging
   

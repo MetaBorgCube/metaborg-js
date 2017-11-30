@@ -1,9 +1,9 @@
-module desugaring/desugaring
+module js/desugaring/desugaring
 
 imports
-  desugaring/class
-  desugaring/expression
-  desugaring/es5-boilerplate
+  js/desugaring/class
+  js/desugaring/expression
+  js/desugaring/es5-boilerplate
 
 rules
   desugar-program-to-es5 = 

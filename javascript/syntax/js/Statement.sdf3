@@ -47,6 +47,7 @@ context-free syntax
   Statement.DeclarationStatement = <<Declaration>;>
   Statement = FunctionDeclaration
   Statement = ClassDeclaration
+  Statement.Throw = <throw <Expression>;>
   
   InitializeAssignment.InitializeAssignment = <= <Expression>>
   

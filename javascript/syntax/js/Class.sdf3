@@ -15,7 +15,7 @@ context-free syntax
   ClassHeritage.Extends = <extends <Expression>>
   ClassHeritage.ExtendsObject = <>
   
-  ClassBody.ClassBody = {ClassElement "\n"}*
+  ClassBody.ClassBody = ClassElement*
   
   ClassElement.MethodDefinition =
     <<ID>(<{LeftHandSideExpression ","}*>){

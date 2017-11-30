@@ -9,48 +9,80 @@ sorts
     CondMid
   
 context-free syntax
+
   Expression = < ( <Expression> ) > {bracket}
+
   Expression.Property = <<Expression>.<ID>> {left}
+  Expression.Index = <<Expression>[<Expression>]> {left}
+  Expression.New = <new <Expression>(<Expression*>)> {non-assoc}
   Expression.Call = <<Expression>(<{Expression ","}*>)> {left}
-  Expression.IntegerLiteral = <<INT>> {non-assoc}
-  Expression.FloatLiteral = <<FLOAT>> {non-assoc}
-  Expression.True = <true> {non-assoc}
-  Expression.False = <false> {non-assoc}
-  Expression.Null = <null> {non-assoc}
-  Expression.Undefined = <undefined> {non-assoc}
-  Expression.Identifier = ID {non-assoc}
-  Expression.String = STRING {non-assoc}
-  Expression.This = <this> {non-assoc}
-  Expression.Addition = <<Expression> + <Expression>> {left}
-  Expression.Substraction = <<Expression> - <Expression>> {left}
+  
+  Expression.PostfixIncrement = <<Expression>++> {non-assoc}
+  Expression.PostfixDecrement = <<Expression>--> {non-assoc}
+  
+  Expression.Not =<!<Expression>> {right}
+  Expression.BitwiseNot = <~<Expression>> {right}
+  Expression.Plus = <+<Expression>> {right}
+  Expression.Negate = <-<Expression>> {right}
+  Expression.PrefixIncrement = <++<Expression>> {right}
+  Expression.PrefixDecrement = <--<Expression>> {right}
+  Expression.TypeOf = <typeof <Expression>> {right}
+  Expression.Void = <void <Expression>> {right}
+  Expression.Delete = <delete <Expression>> {right}
+  
+  Expression.Exponentiation = <<Expression> ** <Expression>> {right}
+  
   Expression.Multiplication = <<Expression> * <Expression>> {left}
   Expression.Division = <<Expression> / <Expression>> {left}
   Expression.Modulo = <<Expression> % <Expression>> {left}
-  Expression.Greater = [[Expression] > [Expression]] {left}
-  Expression.Lower = [[Expression] < [Expression]] {left}
-  Expression.GreaterEquals = [[Expression] >= [Expression]] {left}
-  Expression.LowerEquals = [[Expression] <= [Expression]] {left}
+  
+  Expression.Addition = <<Expression> + <Expression>> {left}
+  Expression.Substraction = <<Expression> - <Expression>> {left}
+  
+  Expression.LeftShit = [[Expression] << [Expression]] {left}
+  Expression.RightShift = [[Expression] >> [Expression]] {left}
+  Expression.URightShift = [[Expression] >>> [Expression]] {left}
+  
+  Expression.LessThan = [[Expression] < [Expression]] {left}
+  Expression.LessThanEquals = [[Expression] <= [Expression]] {left}
+  Expression.GreaterThan = [[Expression] > [Expression]] {left}
+  Expression.GreaterThanEquals = [[Expression] >= [Expression]] {left}
+  Expression.In = [[Expression] in [Expression]] {left}
+  Expression.InstanceOf = [[Expression] instanceof [Expression]] {left}
+  
   Expression.Equals = <<Expression> == <Expression>> {left}
-  Expression.EqualsStrict = <<Expression> === <Expression>> {left}
   Expression.NotEquals = <<Expression> != <Expression>> {left}
+  Expression.EqualsStrict = <<Expression> === <Expression>> {left}
   Expression.NotEqualsStrict = <<Expression> !== <Expression>> {left}
+  
+  Expression.BitwiseAnd = <<Expression> & <Expression>> {left}
+  
+  Expression.BitwiseXOR = <<Expression> ^ <Expression>> {left}
+  
+  Expression.BitwiseOr = <<Expression> | <Expression>> {left}
+  
   Expression.And = [[Expression] && [Expression]] {left}
+  
   Expression.Or = [[Expression] || [Expression]] {left}
+  
+  Expression.Cond = <<Expression> <CondMid> <Expression>> {right}
+  CondMid.CondMid = <? <Expression> :>
+  
+  Expression.IntegerLiteral = INT 
+  Expression.FloatLiteral = FLOAT 
+  Expression.True = <true> 
+  Expression.False = <false>
+  Expression.Null = <null>
+  Expression.Undefined = <undefined>
+  Expression.Identifier = ID
+  Expression.String = STRING
+  Expression.This = <this>
+  
+  
   Expression.FunctionExpression =
     <function <ID?>(<{ID ","}*>) {
         <{Statement "\n"}*>
     }>
-  
-  Expression.Index = <<Expression>[<Expression>]> {left}
-    
-  Expression.Not =<!<Expression>> {non-assoc}
-  Expression.Negate = <- <Expression>> {non-assoc}
-  Expression.Increment = <<Expression>++>
-  Expression.Decrement = <<Expression>-->
-  
-  
-  Expression.Cond = <<Expression> <CondMid> <Expression>> {right}
-  CondMid.CondMid = <? <Expression> :>
   
   
   
@@ -72,11 +104,27 @@ context-free syntax
   
 context-free priorities
 
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 { left:
-	Expression.Call
 	Expression.Property
 	Expression.Index
+	Expression.New
+	Expression.Call
 } > 
+{ right:
+  Expression.Not
+  Expression.BitwiseNot
+  Expression.Plus
+  Expression.Negate
+  Expression.PrefixIncrement
+  Expression.PrefixDecrement
+  Expression.TypeOf
+  Expression.Void
+  Expression.Delete
+} >
+{ right:
+  Expression.Exponentiation
+} >
 { left:
 	Expression.Multiplication
 	Expression.Division
@@ -87,25 +135,33 @@ context-free priorities
 	Expression.Substraction	
 } >
 { left:
-	Expression.Greater
-	Expression.Lower
-	Expression.GreaterEquals
-	Expression.LowerEquals
+	Expression.LessThan
+	Expression.LessThanEquals
+	Expression.GreaterThan
+	Expression.GreaterThanEquals
+	Expression.In
+	Expression.InstanceOf
 } >
 { left:
-    Expression.Equals
-    Expression.EqualsStrict
-    Expression.NotEquals
-    Expression.NotEqualsStrict
+  Expression.Equals
+  Expression.NotEquals
+  Expression.EqualsStrict
+  Expression.NotEqualsStrict
+} >
+{ left:
+  Expression.BitwiseAnd
+} >
+{ left:
+  Expression.BitwiseXOR
+} >
+{ left:
+  Expression.BitwiseOr
 } >
 { left:
 	Expression.And	
 } >
 { left:
 	Expression.Or	
-} >
-{ non-assoc:
-	Expression.Negate
 } >
 { right:
     Expression.Cond

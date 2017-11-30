@@ -1,6 +1,7 @@
 module js/Import
 
 imports
+  js/Expression
   js/Common
 
 context-free syntax
@@ -24,4 +25,4 @@ context-free syntax
   NonDefaultImport = NameSpaceImport
   NonDefaultImport = NamedImports
   
-  FromClause.FromClause = <from <STRING>>
+  FromClause.FromClause = <from <Expression>>

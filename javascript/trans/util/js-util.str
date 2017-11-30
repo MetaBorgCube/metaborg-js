@@ -1,0 +1,52 @@
+module util/js-util
+
+imports
+    signatures/js/Expression-sig
+    signatures/javascript-sig
+    pp/javascript-parenthesize
+    pp/javascript-pp
+    
+    libstratego-gpp
+rules
+
+    pp-js-program = 
+    parenthesize-javascript
+    ; prettyprint-javascript
+    ; !V([], <id>)
+    ; box2text-string(|120)
+
+
+    js-program = where(is-list) ; ?stmts_program ; !js-program |[stmts_program]|
+    js-program = ![<id>] ; js-program
+
+    js-string: s -> String("\"", s, "\"")
+    js-escaped-string = escape ; js-string
+    js-int: s -> IntegerLiteral(s)
+    js-float: s -> FloatLiteral(s)
+    js-true = !True()
+    js-false = !False()
+    
+    
+    js-add    : (lhs, rhs) -> Addition(lhs, rhs)
+    js-sub    : (lhs, rhs) -> Substraction(lhs, rhs)
+    js-mul    : (lhs, rhs) -> Multiplication(lhs, rhs)
+    js-div    : (lhs, rhs) -> Division(lhs, rhs)
+    js-gt     : (lhs, rhs) -> GreaterThan(lhs, rhs)
+    js-gte    : (lhs, rhs) -> GreaterThanEquals(lhs, rhs)
+    js-lt     : (lhs, rhs) -> LessThan(lhs, rhs)
+    js-lte    : (lhs, rhs) -> LessThanEquals(lhs, rhs)
+    js-eq     : (lhs, rhs) -> Equals(lhs, rhs)
+    js-eqq    : (lhs, rhs) -> EqualsStrict(lhs, rhs)
+    js-neq    : (lhs, rhs) -> NotEquals(lhs, rhs)
+    js-neqq   : (lhs, rhs) -> NotEqualsStrict(lhs, rhs)
+    js-and    : (lhs, rhs) -> And(lhs, rhs)
+    js-or     : (lhs, rhs) -> Or(lhs, rhs)
+    js-modulo : (lhs, rhs) -> Modulo(lhs, rhs)
+    
+    js-not = !Not(<id>)
+    
+    js-null = !Null()
+    js-undefined = !Undefined()
+    js-this = !This()
+    
+    js-var: x_var -> js-exp |[x_var]|

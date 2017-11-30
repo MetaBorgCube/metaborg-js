@@ -1,0 +1,107 @@
+module desugaring/class
+
+imports
+  signatures/js/Class-sig
+  signatures/js/Expression-sig
+  signatures/js/Statement-sig
+  util/js-util
+
+signature
+  constructors
+    Constructor: list(LeftHandSideExpression) * list(Statement) -> Constructor
+
+rules
+
+  desugar-class: ClassDeclaration(x_name, ExtendsObject(), ClassBody(body)) -> result 
+    with
+      Constructor(params_constructor, stmts_body) := <get-constructor-from-body> body
+    ; body' := <filter(not(is-constructor))> body
+    ; exps_method := <map(generate-method-expression)> body'
+    ; result := js-stmt |[
+        var x_name = (function(){
+          function x_name(params_constructor){
+            _classCallCheck(this, x_name);
+            stmts_body
+          }
+          _createClass(x_name, [exps_method]);
+          return x_name;
+        })();
+      ]|
+  
+  desugar-class: ClassDeclaration(x_name, Extends(exp_super), ClassBody(body)) -> result 
+    with
+      x_this := "_this"
+    ; exp_this := <js-var> x_this
+    ; Constructor(params_constructor, <bottomup(try(desugar-inherited-this(|exp_this))) ; ?stmts_body>) := <get-constructor-from-body> body
+    ; exp_class := <js-var> x_name
+    ; switch !stmts_body
+        case ?[ExpStmt(Call(Super(), exps_constructor)) | <desugar-class-statements(|exp_this, exp_class) ;  ?stmts_body'>]: 
+          id
+        case desugar-class-statements(|exp_this, exp_class) ; ?stmts_body':
+          <debug> $[Super not called on class [x_name]]
+          
+    end
+    ; body' := <filter(not(is-constructor) ; desugar-class-statements(|<js-this>, exp_class))> body
+    ; exps_method := <map(generate-method-expression)> body'
+    ; x_inherits := "_superClass"
+    ; param_inherits := x_inherits
+    ; result := js-stmt |[
+        var x_name = (function(param_inherits){
+          _inherits(x_name, x_inherits);
+          function x_name(params_constructor){
+            _classCallCheck(this, x_name);
+            var x_this = _possibleConstructorReturn(this, (x_name.__proto__ || Object.getPrototypeOf(x_name)).call(this, exps_constructor));
+            stmts_body'
+            return exp_this;
+          }
+          _createClass(x_name, [exps_method]);
+          return x_name;
+        })(exp_super);
+      ]|
+            
+  is-constructor = ?MethodDefinition("constructor", _, _)
+  
+  get-constructor-from-body = fetch(?MethodDefinition("constructor", params, body)) ; !Constructor(params, body) 
+  get-constructor-from-body = !Constructor([], [])
+  
+  
+  generate-method-expression: MethodDefinition(x_name, params_method, stmts_body) -> js-exp |[
+    {
+      key: exp_name,
+      value: function x_name(params_method){
+        stmts_body
+      }
+    }
+  ]|
+    with
+      exp_name := <js-string> x_name
+
+  desugar-inherited-this(|exp_this) : This() -> exp_this
+
+  desugar-class-statements(|exp_this, exp_class) = topdown(
+    try(desugar-super-property(|exp_this, exp_class))
+  )
+  
+  desugar-super-property(|exp_this, exp_class): DeclarationStatement(ExpressionAssignment(Property(Super(), x_property), InitializeAssignment(exp_value))) -> 
+    js-stmt |[
+      _set(exp_class.prototype.__proto__ || Object.getPrototypeOf(exp_class.prototype), exp_property, exp_value, exp_this);
+    ]|
+      with
+        exp_property := <js-string> x_property
+
+  desugar-super-property(|exp_this, exp_class): Call(Property(Super(), x_property), exps_args) -> js-exp |[
+    _get(exp_class.prototype.__proto__ || Object.getPrototypeOf(exp_class.prototype), exp_property, exp_this).call(exp_this, exps_args)
+  ]|
+    with
+      exp_property := <js-string> x_property
+  
+  desugar-super-property(|exp_this, exp_class): Property(Super(), x_property) -> js-exp |[
+    _get(exp_class.prototype.__proto__ || Object.getPrototypeOf(exp_class.prototype), exp_property, exp_this)
+  ]|
+    with
+      exp_property := <js-string> x_property
+  
+  
+  
+  
+   

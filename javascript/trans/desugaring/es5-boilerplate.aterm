@@ -1,0 +1,192 @@
+Module(
+  "desugaring/es5-boilerplate"
+, [ Imports([Import("signatures/js/Expression-sig")])
+  , Rules(
+      [ SDefNoArgs(
+          "es5-boilerplate"
+        , Build(
+            ToMetaExpr(
+              [ DeclarationStatement(
+                  VarDeclaration(
+                    "_createClass"
+                  , Some(
+                      InitializeAssignment(
+                        Call(
+                          FunctionExpression(
+                            None()
+                          , []
+                          , [ FunctionDeclaration(
+                                "defineProperties"
+                              , ["target", "props"]
+                              , [ For(
+                                    VarDeclaration("i", Some(InitializeAssignment(IntegerLiteral("0"))))
+                                  , LessThan(Identifier("i"), Property(Identifier("props"), "length"))
+                                  , PostfixIncrement(Identifier("i"))
+                                  , [ DeclarationStatement(
+                                        VarDeclaration(
+                                          "descriptor"
+                                        , Some(InitializeAssignment(Index(Identifier("props"), Identifier("i"))))
+                                        )
+                                      )
+                                    , DeclarationStatement(
+                                        ExpressionAssignment(
+                                          Property(Identifier("descriptor"), "enumerable")
+                                        , InitializeAssignment(Or(Property(Identifier("descriptor"), "enumerable"), False()))
+                                        )
+                                      )
+                                    , DeclarationStatement(ExpressionAssignment(Property(Identifier("descriptor"), "configurable"), InitializeAssignment(True())))
+                                    , If(
+                                        In(String("\"", "value", "\""), Identifier("descriptor"))
+                                      , DeclarationStatement(ExpressionAssignment(Property(Identifier("descriptor"), "writable"), InitializeAssignment(True())))
+                                      )
+                                    , ExpStmt(
+                                        Call(
+                                          Property(Identifier("Object"), "defineProperty")
+                                        , [Identifier("target"), Property(Identifier("descriptor"), "key"), Identifier("descriptor")]
+                                        )
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            , Return(
+                                FunctionExpression(
+                                  None()
+                                , ["Constructor", "protoProps", "staticProps"]
+                                , [ If(
+                                      Identifier("protoProps")
+                                    , ExpStmt(
+                                        Call(
+                                          Identifier("defineProperties")
+                                        , [Property(Identifier("Constructor"), "prototype"), Identifier("protoProps")]
+                                        )
+                                      )
+                                    )
+                                  , If(
+                                      Identifier("staticProps")
+                                    , ExpStmt(
+                                        Call(Identifier("defineProperties"), [Identifier("Constructor"), Identifier("staticProps")])
+                                      )
+                                    )
+                                  , Return(Identifier("Constructor"))
+                                  ]
+                                )
+                              )
+                            ]
+                          )
+                        , []
+                        )
+                      )
+                    )
+                  )
+                )
+              , FunctionDeclaration(
+                  "_possibleConstructorReturn"
+                , ["self", "call"]
+                , [ If(
+                      Not(Identifier("self"))
+                    , BlockStatement(
+                        [Throw(
+                           New(Identifier("ReferenceError"), [String("\"", "this hasn't been initialised - super() hasn't been called", "\"")])
+                         )]
+                      )
+                    )
+                  , Return(
+                      Cond(
+                        And(
+                          Identifier("call")
+                        , Or(
+                            EqualsStrict(TypeOf(Identifier("call")), String("\"", "object", "\""))
+                          , EqualsStrict(TypeOf(Identifier("call")), String("\"", "function", "\""))
+                          )
+                        )
+                      , CondMid(Identifier("call"))
+                      , Identifier("self")
+                      )
+                    )
+                  ]
+                )
+              , FunctionDeclaration(
+                  "_inherits"
+                , ["subClass", "superClass"]
+                , [ If(
+                      And(
+                        NotEqualsStrict(TypeOf(Identifier("superClass")), String("\"", "function", "\""))
+                      , NotEqualsStrict(Identifier("superClass"), Null())
+                      )
+                    , BlockStatement(
+                        [ Throw(
+                            New(
+                              Identifier("TypeError")
+                            , [Addition(String("\"", "Super expression must either be null or a function, not ", "\""), TypeOf(Identifier("superClass")))]
+                            )
+                          )
+                        ]
+                      )
+                    )
+                  , DeclarationStatement(
+                      ExpressionAssignment(
+                        Property(Identifier("subClass"), "prototype")
+                      , InitializeAssignment(
+                          Call(
+                            Property(Identifier("Object"), "create")
+                          , [ And(Identifier("superClass"), Property(Identifier("superClass"), "prototype"))
+                            , ObjectLiteral(
+                                [ ObjectProperty(
+                                    Identifier("constructor")
+                                  , ObjectLiteral(
+                                      [ ObjectProperty(Identifier("value"), Identifier("subClass"))
+                                      , ObjectProperty(Identifier("enumerable"), False())
+                                      , ObjectProperty(Identifier("writable"), True())
+                                      , ObjectProperty(Identifier("configurable"), True())
+                                      ]
+                                    )
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        )
+                      )
+                    )
+                  , If(
+                      Identifier("superClass")
+                    , DeclarationStatement(
+                        ExpressionAssignment(
+                          Cond(
+                            Property(Identifier("Object"), "setPrototypeOf")
+                          , CondMid(
+                              Call(
+                                Property(Identifier("Object"), "setPrototypeOf")
+                              , [Identifier("subClass"), Identifier("superClass")]
+                              )
+                            )
+                          , Property(Identifier("subClass"), "__proto__")
+                          )
+                        , InitializeAssignment(Identifier("superClass"))
+                        )
+                      )
+                    )
+                  ]
+                )
+              , FunctionDeclaration(
+                  "_classCallCheck"
+                , ["instance", "Constructor"]
+                , [ If(
+                      Not(InstanceOf(Identifier("instance"), Identifier("Constructor")))
+                    , BlockStatement(
+                        [Throw(
+                           New(Identifier("TypeError"), [String("\"", "Cannot call a class as a function", "\"")])
+                         )]
+                      )
+                    )
+                  ]
+                )
+              ]
+            )
+          )
+        )
+      ]
+    )
+  ]
+)

@@ -3,7 +3,6 @@ module JSMix[E]
 imports
 
   javascript
-  js/Expression [String => JSString]
 
 exports
 
@@ -14,15 +13,22 @@ exports
     
       
   context-free syntax
+    "js-program" "|[" Start "]|" -> E {cons("ToMetaExpr")}
+    
     "js-ex"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
     "js-ex*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
     "js-exp"  "|[" Expression "]|" -> E {cons("ToMetaExpr")}
     "js-exp*"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
+    "js-exps"  "|[" Expression* "]|" -> E {cons("ToMetaExpr")}
+    
     "js-stmt"  "|[" Statement "]|" -> E {cons("ToMetaExpr")}
+    "js-stmts"  "|[" Statement* "]|" -> E {cons("ToMetaExpr")}
     "js-stmt*"  "|[" Statement* "]|" -> E {cons("ToMetaExpr")}
-    "js-methoddecl" "|[" MethodDecl "]|" -> E {cons("ToMetaExpr")}
-    "js-methoddecl*" "|[" MethodDecl* "]|" -> E {cons("ToMetaExpr")}
-    "js-program" "|[" Start "]|" -> E {cons("ToMetaExpr")}
+    
+    "js-method" "|[" ClassElement "]|" -> E {cons("ToMetaExpr")}
+    "js-method*" "|[" ClassElement* "]|" -> E {cons("ToMetaExpr")}
+    "js-methods" "|[" ClassElement* "]|" -> E {cons("ToMetaExpr")}
+    
     "js-prop" "|[" ObjectProperty "]|" -> E {cons("ToMetaExpr")}
     "js-prop*" "|[" {ObjectProperty ","}* "]|" -> E {cons("ToMetaExpr")}
     
@@ -31,18 +37,21 @@ exports
     "exp_"  [A-Za-z0-9\']+     -> Expression {prefer}
  	  "exp"   [0-9\']* "*"       -> {Expression ","}* {prefer}
 	  "exp_"  [A-Za-z0-9\']+ "*" -> {Expression ","}* {prefer}
+    "exps_" [A-Za-z0-9\']+     -> {Expression ","}* {prefer}
+    
     "stmt"   [0-9\']*           -> Statement {prefer}
     "stmt_"  [A-Za-z0-9\']+     -> Statement {prefer}
  	  "stmt"   [0-9\']* "*"       -> Statement* {prefer}
 	  "stmt_"  [A-Za-z0-9\']+ "*" -> Statement* {prefer}
 	  "stmts_"  [A-Za-z0-9\']+    -> Statement* {prefer}
-    "met"   [0-9\']*           -> MethodDecl {prefer}
-    "met_"  [A-Za-z0-9\']+     -> MethodDecl {prefer}
- 	  "met"   [0-9\']* "*"       -> MethodDecl* {prefer}
-	  "met_"  [A-Za-z0-9\']+ "*" -> MethodDecl* {prefer}
-	  "x_" [A-Za-z0-9\']+        -> ID {prefer}
+    "x_" [A-Za-z0-9\']+        -> ID {prefer}
+	  "param_" [A-Za-z0-9\']+     -> LeftHandSideExpression {prefer}
+	  "params_" [A-Za-z0-9\']+     -> {LeftHandSideExpression ","}* {prefer}
 	  "prop_" [A-Za-z0-9\']+     -> ObjectProperty { prefer }
 	  "prop_" [A-Za-z0-9\']+ "*"    -> {ObjectProperty ","}* { prefer }
+	  
+	  "method_" [A-Za-z0-9\']+ -> ClassElement { prefer }
+	  "methods_" [A-Za-z0-9\']+ -> ClassElement* { prefer }
 	
   context-free restrictions
     ID -/- [\_a-zA-Z0-9\']

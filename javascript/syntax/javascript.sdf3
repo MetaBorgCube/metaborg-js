@@ -6,9 +6,13 @@ imports
   js/Lexical
   js/Expression
   js/Statement
+  js/Class
 
 context-free start-symbols
   Start
+  Expression
+  Statement
+  ClassElement
 
 context-free syntax
   Start.Program = <<{Statement "\n"}*>>

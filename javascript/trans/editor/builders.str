@@ -1,0 +1,12 @@
+module editor/builders
+
+imports 
+  util/js-util
+  desugaring/desugaring
+
+rules
+  desugar-to-es5: (target, position, ast, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"es5.js")> path
+    ; program := <desugar-program-to-es5 ; debug> ast
+    ; result := <pp-js-program> program

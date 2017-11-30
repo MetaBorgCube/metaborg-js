@@ -40,7 +40,6 @@ context-free syntax
   Statement.If      = <if(<Expression>) <Statement>> {prefer}
   Statement.IfElse  = <if(<Expression>) <Statement> else <Statement>>
   
-  
   Statement.Return = <return <Expression>;>
   Statement = Import
   Statement = Export

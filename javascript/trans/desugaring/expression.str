@@ -1,0 +1,7 @@
+module desugaring/expression
+
+imports
+  signatures/js/Expression-sig
+
+rules
+  desugar-expression = fail

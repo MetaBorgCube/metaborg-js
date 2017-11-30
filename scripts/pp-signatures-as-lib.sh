@@ -21,8 +21,8 @@ do
   outfile="$libfolder/$(dirname $stripped | xargs basename)/$(basename $stripped)"
   echo $outfile
   mkdir -p $(dirname $outfile)
-  sed -e "s/\(pp\|signatures\)\(\/js\)\?[^-]/js\/\1\//" $file | tee $outfile
+  sed -E "s/(pp|signatures)(\/js)?[^-]/js\/\1\//" $file | tee $outfile
 done
 
 #copy util file
-cp $PROJECT_PATH/trans/js-util.str $libfolder/
+# cp $PROJECT_PATH/trans/js-util.str $libfolder/

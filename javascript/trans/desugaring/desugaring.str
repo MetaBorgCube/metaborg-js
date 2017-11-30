@@ -1,0 +1,19 @@
+module desugaring/desugaring
+
+imports
+  desugaring/class
+  desugaring/expression
+  desugaring/es5-boilerplate
+
+rules
+  desugar-program-to-es5 = 
+    Program(
+     <conc> (<es5-boilerplate>, <desugar-program>)
+    )
+    
+  desugar-program =
+    bottomup(
+      try(desugar-class) ;
+      try(desugar-expression)
+    )
+    

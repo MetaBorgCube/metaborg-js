@@ -4,6 +4,7 @@ imports
 
   js/Common
   js/Statement
+  js/Assignment
   
 sorts
     CondMid
@@ -14,7 +15,7 @@ context-free syntax
 
   Expression.Property = <<Expression>.<ID>> {left}
   Expression.Index = <<Expression>[<Expression>]> {left}
-  Expression.New = <new <Expression>(<Expression*>)> {non-assoc}
+  Expression.New = <new <Expression>(<{Expression ","}*>)> {non-assoc}
   Expression.Call = <<Expression>(<{Expression ","}*>)> {left}
   
   Expression.PostfixIncrement = <<Expression>++> {non-assoc}
@@ -69,18 +70,18 @@ context-free syntax
   CondMid.CondMid = <? <Expression> :>
   
   Expression.IntegerLiteral = INT 
-  Expression.FloatLiteral = FLOAT 
+  Expression.FloatLiteral = FLOAT
   Expression.True = <true> 
   Expression.False = <false>
   Expression.Null = <null>
   Expression.Undefined = <undefined>
   Expression.Identifier = ID
-  Expression.String = STRING
   Expression.This = <this>
+  Expression.Super = <super>
   
   
   Expression.FunctionExpression =
-    <function <ID?>(<{ID ","}*>) {
+    <function <ID?>(<{LeftHandSideExpression ","}*>) {
         <{Statement "\n"}*>
     }>
   
@@ -101,6 +102,10 @@ context-free syntax
   
   LambdaParameters.LambdaParameters = <(<{ID ","}*>)>
   LambdaParameters.SingleParameter = ID
+  
+
+syntax
+  Expression-CF.String = QMLex-LEX StringLex-LEX QMLex-LEX {ast("String(<2>)")}
   
 context-free priorities
 

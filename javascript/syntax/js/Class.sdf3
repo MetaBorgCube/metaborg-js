@@ -7,17 +7,19 @@ imports
   js/Assignment
   
 context-free syntax
-  ClassDeclaration.ClassDeclaration = 
-    <class <ID> <ClassHeritage>  {
-       <ClassBody>
-     }>
+  ClassDeclaration.ClassDeclaration = <
+    class <ID> <ClassHeritage> {
+      <ClassBody>
+    }
+  >
   
   ClassHeritage.Extends = <extends <Expression>>
   ClassHeritage.ExtendsObject = <>
   
-  ClassBody.ClassBody = ClassElement*
+  ClassBody.ClassBody = <<{ClassElement "\n"}*>>
   
-  ClassElement.MethodDefinition =
-    <<ID>(<{LeftHandSideExpression ","}*>){
-      <Statement*>  
-    }>
+  ClassElement.MethodDefinition = <
+    <ID>(<{LeftHandSideExpression ","}*>){
+      <Statement*>
+    }
+  >
